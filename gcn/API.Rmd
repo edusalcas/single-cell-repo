@@ -1,0 +1,262 @@
+---
+title: "Accesing Single-cell API REST from R"
+author: 
+- Alicia Gómez
+- Eduardo Salmerón
+date: "`r format(Sys.time(), '%d/%m/%y')`"
+output: 
+  html_document:
+    theme: spacelab
+    highlight: kate
+    df_print: paged
+    toc: true
+    toc_float: true
+    number_sections: true
+---
+
+<style>
+body {
+text-align: justify}
+</style>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+source("/home/aligo/API/functions.R")
+APIpath <- "http://194.4.102.168:5000/"
+# https://medium.com/@traffordDataLab/querying-apis-in-r-39029b73d5f1
+```
+
+# Requirements
+
+```{r}
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(data.table)
+library(RCurl)
+```
+
+
+# Get a list of possible values for a metadata
+
+## Disease
+
+```{r}
+request <- GET(url = paste0(APIpath, "project/metadata/disease"))
+response <- content(request, as = "text", encoding = "UTF-8")
+df <- fromJSON(response, flatten = TRUE)
+sort(df)
+```
+
+## cell_type
+
+```{r}
+request <- GET(url = paste0(APIpath, "project/metadata/cell_type"))
+response <- content(request, as = "text", encoding = "UTF-8")
+df <- fromJSON(response, flatten = TRUE)
+sort(df)
+```
+
+
+# Get percentiles of the projects given a filter
+
+```{r}
+request <- GET(url = paste0(APIpath, "percentiles?filters=%7B%0A%20%20%22cell_types%22%3A%20%5B%0A%20%20%20%20%22memory%20B%20cell%22%2C%0A%20%20%20%20%22blood%20cell%22%0A%20%20%5D%2C%0A%20%20%22gen_names%22%3A%20%5B%0A%20%20%20%20%22ENSG00000287846%22%2C%0A%20%20%20%20%22ENSDARG00000034326%22%0A%20%20%5D%0A%7D"))
+response <- content(request, as = "text", encoding = "UTF-8")
+df <- fromJSON(response) %>% 
+  data.frame()
+df
+```
+
+
+
+# Get a list of projects
+
+## List all projects
+
+```{r}
+request <- GET(url = paste0(APIpath, "project?"))
+response <- content(request, as = "text", encoding = "UTF-8")
+df <- jsonlite::fromJSON(response)
+df <- as.data.frame(do.call(cbind, lapply(df, function(x) unlist(x))))
+dim(df)
+df[1:5, 1:5]
+```
+
+
+## List projects given a filter
+
+```{r}
+request <- GET(url = paste0(APIpath, "project?cell_type=DopaminergicNeuron"))
+response <- content(request, as = "text", encoding = "UTF-8")
+df <- jsonlite::fromJSON(response)
+df <- as.data.frame(do.call(cbind, lapply(df, function(x) unlist(x))))
+df
+```
+
+
+# Get downloads
+
+```{r}
+request <- GET(url = paste0(APIpath, "project/downloads/E-MTAB-7303"))
+response <- content(request, as = "text", encoding = "UTF-8")
+df <- rjson::fromJSON(response, simplify=T)
+df <- setDT(as.data.frame(do.call(cbind, lapply(df, function(x) unlist(x)))), keep.rownames=T)
+colnames(df) <- c("name", "link")
+df$link <- as.character(df$link)
+df
+```
+
+```{r}
+metadata <- getURL(df$link[df$name=="experimentDesignLink"])
+metadata <- read.csv(textConnection(metadata), sep="\t")
+metadata[1:5, 1:5]
+```
+
+
+# Implementation
+
+## Step 1: obtaining the files for 10 different projects
+
+```{r}
+source("/home/aligo/API/functions.R")
+myPath <- "/home/aligo/API/"
+projects <- c("E-MTAB-7303", "E-CURD-11", "E-CURD-12", "E-CURD-13", "E-ENAD-20", "E-GEOD-110499", "E-GEOD-149689", "E-MTAB-5802", "E-MTAB-7381", "E-MTAB-8559")
+
+for (ID in projects) {
+  print(ID)
+  
+  # Obtain links
+  df <- obtainLinks(ID, APIpath)
+  
+  # Create dir if doesn't exist
+  projectName <- df$link[df$name=="project_ID"]
+  workingPath <- paste0(myPath, "/", projectName)
+  
+  if(!(dir.exists(workingPath))) {
+    cat("Creating", workingPath, "directory\n")
+    dir.create(workingPath)
+  }
+  
+  setwd(workingPath)
+  myFiles <- list.files(workingPath)
+  index <- grep(".rds", myFiles)
+
+  if (length(index)==1) {
+    cat("We already have the matrix created\n")
+    matrix <- readRDS(paste0(workingPath, "/", myFiles[index]))
+    cat("Creating metadata file\n")
+    metadata <- obtainMetadata(df, matrix, workingPath)
+    
+  } else if (length(index)==0) {
+    cat("Creating matrix file\n")
+    matrix <- obtainMatrix(df, workingPath)
+    cat("Creating metadata file\n")
+    metadata <- obtainMetadata(df, matrix, workingPath)
+  }
+  
+}
+
+```
+
+
+```{r}
+matrix <- readRDS("~/API/E-MTAB-7303/E-MTAB-7303.expression_tpm.rds")
+dim(as.matrix(matrix))
+matrix[1:5, 1:5]
+```
+
+
+```{r}
+metadata <- readRDS("~/API/E-MTAB-7303/ExpDesign-E-MTAB-7303.rds")
+dim(metadata)
+metadata[1:5, ]
+```
+
+
+## Step 2: classify biological and technical covariates
+
+```{r, eval=FALSE}
+json_data <- fromJSON(file="/home/aligo/API/posible_values.json")
+sampleFeatures <- names(json_data[[1]])
+expFeatures <- names(json_data[[2]])
+sort(sampleFeatures)
+```
+
+
+```{r}
+ctID <- "Assay"
+sampleID <- "individual"
+ctCov <- c("cell.type") # inferred cell type?
+subCov <- c("cluster")
+samplingCovs <- c("growth.condition", "metastatic.site", "organism", "organism.part", "sampling.site", "stimulus")
+bioCovs <- c("age", "ancestry.category", "cell.cycle.phase", "cell.line", "developmental.stage", "disease", "disease.staging", "ethnic.group", "phenotype", "post.conception.age", "sex")
+technicalCovs <- c("block", "microwell.plate", "organism.status", "passage", "plate", "protocol", "sampling.time.point", "time", "well", "well.information")
+myList <- list(ctID, sampleID, ctCov, subCov, samplingCovs, bioCovs, technicalCovs)
+# saveRDS(myList, "/home/aligo/API/myList.rds")
+```
+
+
+
+## Estimate the number of possible combinations for each project
+
+```{r}
+samplingCovs <- c("growth.condition", "metastatic.site", "organism", "organism.part", "sampling.site", "stimulus", "cell.type")
+projects <- list.dirs(myPath)[-1]
+names <- gsub(myPath, "", projects)
+names <- gsub("/", "", names)
+
+for (i in 1:length(projects)) {
+  metadata <- list.files(projects[i], pattern="ExpDesign", full.names=T)
+  metadata <- readRDS(metadata)
+  
+  ## Remove cols with the same value for all cells
+  colsToRemove <- c()
+   
+  for (j in 1:ncol(metadata)) {
+    term <- as.character(metadata[, j])
+     counts <- table(term)
+   
+     if (length(counts)==1) {
+       colsToRemove <- c(colsToRemove, j)
+     }
+   }
+   
+  metadata <- metadata[, -colsToRemove]
+  
+  ## Looking for sampling covs
+  index <- which(colnames(metadata) %in% samplingCovs)
+  
+  if(length(index)>0) {
+    
+    combinations <- list()
+    
+    for (k in 1:length(index)) {
+      combinations[[k]] <- split(metadata,list(metadata[, colnames(metadata)[index[k]]]), drop=TRUE)
+      
+    }
+    ## Estimating the mean number of cells for each network
+    combs <- lapply(combinations, function(comb) lapply(comb, function(c) nrow(c)))
+    mean <- as.integer(mean(unlist(combs)))
+    numOfCombs <- sum(lengths(combs))
+    
+  } else {
+    if(!is.null(dim(metadata))) {
+      mean <- nrow(metadata)
+      numOfCombs <- 1
+    } else {
+      mean <- length(metadata)
+      numOfCombs <- 1
+    }
+   
+  }
+  
+  cat("- Project_ID", names[i], "has a total of", numOfCombs, "combinations with a mean number of cells of", mean, "\n")
+}
+
+
+```
+
+
+
