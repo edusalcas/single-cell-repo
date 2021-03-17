@@ -1,0 +1,192 @@
+package single_cell;
+
+import java.util.List;
+
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.rdf.model.Property;
+import org.json.JSONObject;
+
+public class MyIndividual {
+
+	// Classes atributes
+	private String id;
+
+	private String accesion;
+	private String collection;
+	private List<Object> disease;
+
+	private List<Object> formats;
+	private Integer size;
+	private List<Object> types;
+
+	private List<Object> genusSpecies;
+	private String kingdom;
+
+	private List<Object> protocols;
+	private List<Object> instruments;
+	private List<Object> libraries;
+	private List<Object> preservations;
+
+	private List<Object> organs;
+	private List<Object> organParts;
+	private List<Object> cellTypes;
+
+	private String repository;
+	private String sampleType;
+
+	private Individual individual;
+	private MyModel model;
+
+	private String readStringFromJson(JSONObject jsonObject, String field) {
+		String string = null;
+
+		try {
+			string = jsonObject.getString(field);
+		} catch (Exception e) {
+			return null;
+		}
+
+		return string;
+	}
+
+	private Integer readIntegerFromJson(JSONObject jsonObject, String field) {
+		Integer integer = null;
+
+		try {
+			integer = jsonObject.getInt(field);
+		} catch (Exception e) {
+			return null;
+		}
+
+		return integer;
+	}
+
+	private void addClassToInd(String className) {
+		if (className == null)
+			return;
+
+		OntClass classModel = model.getOntClass(className);
+
+		if (classModel == null)
+			return;
+
+		individual.addOntClass(classModel);
+	}
+
+	public MyIndividual(JSONObject jsonIndividual, MyModel model) {
+		initIndividual(jsonIndividual);
+
+		this.model = model;
+	}
+
+	private void initIndividual(JSONObject jsonIndividual) {
+
+		this.id = readStringFromJson(jsonIndividual, "ID");
+
+		initClasses(jsonIndividual);
+		initDataProperties(jsonIndividual);
+		initObjectProperties(jsonIndividual);
+
+		this.organ = readStringFromJson(jsonIndividual, "organ");
+		this.organismAge = readStringFromJson(jsonIndividual, "organism_age");
+		this.disease = readStringFromJson(jsonIndividual, "disease");
+		this.instrumentManufacturerModel = readStringFromJson(jsonIndividual, "instrument_manufacturer_model");
+		this.organPart = readStringFromJson(jsonIndividual, "organ_part");
+		// this.collections = jsonIndividual.getJSONArray("collection").toList();
+		this.libraryConstructionApproach = readStringFromJson(jsonIndividual, "library_construction_approach");
+		this.pairedEnd = jsonIndividual.getBoolean("paired_end");
+		this.selectedCellType = readStringFromJson(jsonIndividual, "selected_cell_type");
+		this.genusSpecies = readStringFromJson(jsonIndividual, "genus_species");
+		this.donorCount = readIntegerFromJson(jsonIndividual, "donor_count");
+		this.fileType = readStringFromJson(jsonIndividual, "file_type");
+		this.biologicalSex = readStringFromJson(jsonIndividual, "biological_sex");
+		this.totalCells = readIntegerFromJson(jsonIndividual, "total_cells");
+	}
+
+	private void initClasses(JSONObject jsonIndividual) {
+		JSONObject jsonIndividualClasses = jsonIndividual.getJSONObject("Classes");
+
+		accesion = readStringFromJson(jsonIndividualClasses, "Accesion");
+		collection = readStringFromJson(jsonIndividualClasses, "Collection");
+		disease = jsonIndividualClasses.getJSONArray("Disease").toList();
+		JSONObject jsonExperimental = jsonIndividual.getJSONObject("Experimental");
+		JSONObject jsonFile = jsonIndividual.getJSONObject("File");
+
+		formats = jsonFile.getJSONArray("Format").toList();
+		size = readIntegerFromJson(jsonFile, "Size");
+		types = jsonFile.getJSONArray("Type").toList();
+
+		genusSpecies = jsonIndividualClasses.getJSONArray("GenusSpecies").toList();
+		kingdom = readStringFromJson(jsonIndividualClasses, "Kingdom");
+		JSONObject jsonMethod = jsonIndividual.getJSONObject("Method");
+
+		protocols = jsonMethod.getJSONArray("AnalysisProtocol").toList();
+		instruments = jsonMethod.getJSONArray("InstrumentModel").toList();
+		libraries = jsonMethod.getJSONArray("Library").toList();
+		preservations = jsonMethod.getJSONArray("Preservation").toList();
+
+		JSONObject jsonOrgan = jsonIndividual.getJSONObject("Organ");
+
+		organs = jsonOrgan.getJSONArray("Organ").toList();
+		organParts = jsonOrgan.getJSONArray("OrganPart").toList();
+		cellTypes = jsonOrgan.getJSONArray("CellType").toList();
+
+		repository = readStringFromJson(jsonIndividualClasses, "Repository");
+		sampleType = readStringFromJson(jsonIndividualClasses, "SampleType");
+
+	}
+
+	public Boolean addToModel() {
+		if (organ == null) {
+			return false;
+		}
+
+		individual = model.createIndividual(id, model.getOntClass(organ));
+
+		addClassToInd(organ);
+		addClassToInd(disease);
+		addClassToInd(instrumentManufacturerModel);
+		addClassToInd(organPart);
+		addClassToInd(libraryConstructionApproach);
+		addClassToInd(selectedCellType);
+		addClassToInd(genusSpecies);
+		addClassToInd(fileType);
+
+		if (organismAge != null) {
+			Property propertyAge = model.getProperty(MyModel.AGE);
+			individual.addProperty(propertyAge, organismAge);
+		}
+
+		if (biologicalSex != null) {
+			Property propertySex = model.getProperty(MyModel.SEX);
+			individual.addProperty(propertySex, biologicalSex);
+		}
+
+		if (totalCells != null) {
+			Property propertyCells = model.getProperty(MyModel.CELLSCOUNTS);
+			individual.addProperty(propertyCells, totalCells.toString());
+		}
+
+		if (donorCount != null) {
+			Property propertyDonors = model.getProperty(MyModel.DONORSCOUNTS);
+			individual.addProperty(propertyDonors, donorCount.toString());
+		}
+
+		// System.out.println("Individual " + id + " added to model.");
+
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Individual [" + "\n\t" + "organ=" + organ + "\n\t" + ", organismAge=" + organismAge + "\n\t"
+				+ ", disease=" + disease + "\n\t" + ", instrumentManufacturerModel=" + instrumentManufacturerModel
+				+ "\n\t" + ", organPart=" + organPart + "\n\t" + ", collections=" + collections + "\n\t"
+				+ ", libraryConstructionApproach=" + libraryConstructionApproach + "\n\t" + ", pairedEnd=" + pairedEnd
+				+ "\n\t" + ", selectedCellType=" + selectedCellType + "\n\t" + ", genusSpecies=" + genusSpecies + "\n\t"
+				+ ", donorCount=" + donorCount + "\n\t" + ", fileType=" + fileType + "\n\t" + ", biologicalSex="
+				+ biologicalSex + "\n\t" + ", totalCells=" + totalCells + "\n\t" + ", id=" + id + "\n" + "]";
+	}
+
+}
