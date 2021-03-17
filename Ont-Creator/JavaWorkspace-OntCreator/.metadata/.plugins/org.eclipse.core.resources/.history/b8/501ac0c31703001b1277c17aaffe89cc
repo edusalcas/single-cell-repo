@@ -1,0 +1,116 @@
+package single_cell;
+
+import java.util.List;
+
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.rdf.model.Property;
+import org.json.JSONObject;
+
+public class MyIndividual {
+
+	private String id;
+	
+	private JSONObject jsonIndividual;
+	
+	private Individual individual;
+	private MyModel model;
+
+	private String readStringFromJson(JSONObject jsonObject, String field) {
+		String string = null;
+
+		try {
+			string = jsonObject.getString(field);
+		} catch (Exception e) {
+			return null;
+		}
+
+		return string;
+	}
+
+	private Integer readIntegerFromJson(JSONObject jsonObject, String field) {
+		Integer integer = null;
+
+		try {
+			integer = jsonObject.getInt(field);
+		} catch (Exception e) {
+			return null;
+		}
+
+		return integer;
+	}
+
+	private void addClassToInd(String className) {
+		if (className == null)
+			return;
+
+		OntClass classModel = model.getOntClass(className);
+
+		if (classModel == null)
+			return;
+
+		individual.addOntClass(classModel);
+	}
+
+	public MyIndividual(JSONObject jsonIndividual, MyModel model) {
+		initIndividual(jsonIndividual);
+
+		this.model = model;
+	}
+
+	private void initIndividual(JSONObject jsonIndividual) {
+
+		this.id = readStringFromJson(jsonIndividual, "ID");
+		this.jsonIndividual = jsonIndividual;
+		
+	}
+	
+	private void initClasses(JSONObject jsonIndividual) {
+		JSONObject jsonIndividualClasses = jsonIndividual.getJSONObject("Classes");
+
+		accesion = readStringFromJson(jsonIndividualClasses, "Accesion");
+		collection = readStringFromJson(jsonIndividualClasses, "Collection");
+		disease = jsonIndividualClasses.getJSONArray("Disease").toList();
+		// JSONObject jsonExperimental = jsonIndividual.getJSONObject("Experimental");
+		JSONObject jsonFile = jsonIndividual.getJSONObject("File");
+
+		formats = jsonFile.getJSONArray("Format").toList();
+		size = readIntegerFromJson(jsonFile, "Size");
+		types = jsonFile.getJSONArray("Type").toList();
+
+		genusSpecies = jsonIndividualClasses.getJSONArray("GenusSpecies").toList();
+		kingdom = readStringFromJson(jsonIndividualClasses, "Kingdom");
+		JSONObject jsonMethod = jsonIndividual.getJSONObject("Method");
+
+		protocols = jsonMethod.getJSONArray("AnalysisProtocol").toList();
+		instruments = jsonMethod.getJSONArray("InstrumentModel").toList();
+		libraries = jsonMethod.getJSONArray("Library").toList();
+		preservations = jsonMethod.getJSONArray("Preservation").toList();
+
+		JSONObject jsonOrgan = jsonIndividual.getJSONObject("Organ");
+
+		organs = jsonOrgan.getJSONArray("Organ").toList();
+		organParts = jsonOrgan.getJSONArray("OrganPart").toList();
+		cellTypes = jsonOrgan.getJSONArray("CellType").toList();
+
+		repository = readStringFromJson(jsonIndividualClasses, "Repository");
+		sampleType = readStringFromJson(jsonIndividualClasses, "SampleType");
+
+	}
+	
+	public Boolean addToModel() {
+		
+		for (String className : MyModel.CLASSES) {
+			List<Object> list = jsonIndividual.getJSONObject("Classes").getJSONArray(className).toList();
+			for (Object ontClass : list) {
+				model.createIndividual(id, ontClass);
+			}
+		}
+		
+		// System.out.println("Individual " + id + " added to model.");
+
+		return true;
+	}
+
+
+}
