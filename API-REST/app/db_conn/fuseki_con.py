@@ -26,7 +26,7 @@ def conn_alive():
     return ans.status_code == 200
 
 
-def __fuseki_to_dict(response):
+def __fuseki_to_dict(response, dict_type='list'):
     headers = response.json()["head"]["vars"]
     results = response.json()["results"]['bindings']
 
@@ -52,11 +52,32 @@ def __fuseki_to_dict(response):
     df = pd.DataFrame(rows)
 
     if 'project_ID' not in df.columns:
-        df_dict = df.to_dict('list')
+        df_dict = df.to_dict(dict_type)
 
-        for key in df_dict:
-            l = list(set(df_dict[key]))
-            df_dict[key] = l[0] if len(l) == 1 else l
+        if dict_type == 'list':
+            for key in df_dict:
+                l = list(set(df_dict[key]))
+                df_dict[key] = l[0] if len(l) == 1 else l
+        elif dict_type == 'records':
+            aux = {}
+
+            for item in df_dict:
+
+                term = item['term']
+                URI = item['URI']
+
+                if term not in aux:
+                    aux[term] = []
+
+                aux[term].append(URI)
+
+            df_dict = []
+
+            for term, URIs in aux.items():
+                df_dict.append({
+                    'term': term,
+                    'URI': URIs
+                })
 
         return df_dict
 
@@ -163,36 +184,68 @@ def get_projects(params={}):
 
 
 def get_project_metadata(metadata_param):
+    metadata_param_with_URI = ['disease', 'cell_type', 'organism_part', 'biopsy_site']
+    metadata_param_without_URI = ['sex', 'repository', 'library', 'specie', 'analysis_protocol', 'instrument']
+
+    if metadata_param in metadata_param_with_URI:
+        return __get_project_metadata_with_URI(metadata_param)
+    elif metadata_param in metadata_param_without_URI:
+        return __get_project_metadata_without_URI(metadata_param)
+
+    return {'msg': 'Param key not valid'}
+
+
+def __get_project_metadata_with_URI(metadata_param):
     where_content = ""
 
     if metadata_param == 'disease':
-        where_content += "{ ?x rdfs:subClassOf* a:Disease . } UNION { ?y rdfs:subClassOf* a:Disease . ?x rdf:type ?y }"
+        where_content += "{ ?term rdfs:subClassOf* a:Disease . } UNION { ?y rdfs:subClassOf* a:Disease . ?term rdf:type ?y } ."
     elif metadata_param == 'cell_type':
-        where_content += "{ ?x rdfs:subClassOf* a:CellType . } UNION { ?y rdfs:subClassOf* a:CellType . ?x rdf:type ?y }"
-    elif metadata_param == 'sex':
+        where_content += "{ ?term rdfs:subClassOf* a:CellType . } UNION { ?y rdfs:subClassOf* a:CellType . ?term rdf:type ?y } ."
+    elif metadata_param == 'organism_part' or metadata_param == "biopsy_site":
+        where_content += "{ ?term rdfs:subClassOf* a:OrganismPart . } UNION { ?y rdfs:subClassOf* a:OrganismPart . ?term rdf:type ?y } ."
+
+    query = '''
+        PREFIX a: <http://www.semanticweb.org/alicia/ontologies/2020/8/singleCellRepositories#>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT DISTINCT
+            ?term
+            ?URI
+        WHERE { ''' + where_content + '\n OPTIONAL { ?term a:OR.hasURI ?URI } .\n }' + "\nORDER BY ?term"
+
+    print(query)
+
+    response = requests.post(request_url, data={'query': query})
+
+    metadata_list = __fuseki_to_dict(response, dict_type="records")
+
+    return metadata_list
+
+
+def __get_project_metadata_without_URI(metadata_param):
+    where_content = ""
+
+    if metadata_param == 'sex':
         where_content += " ?project a:SPR.hasSex ?x ."
     elif metadata_param == 'repository':
         where_content += " ?project a:SPR.isPartOfRepository ?x ."
     elif metadata_param == 'library':
         where_content += "{ ?x rdfs:subClassOf* a:Library . } UNION { ?y rdfs:subClassOf* a:Library . ?x rdf:type ?y }"
-    elif metadata_param == 'organism_part' or metadata_param == "biopsy_site":
-        where_content += "{ ?x rdfs:subClassOf* a:OrganismPart . } UNION { ?y rdfs:subClassOf* a:OrganismPart . ?x rdf:type ?y }"
     elif metadata_param == 'specie':
         where_content += "{ ?x rdfs:subClassOf* a:Specie . } UNION { ?y rdfs:subClassOf* a:Specie . ?x rdf:type ?y }"
     elif metadata_param == 'analysis_protocol':
         where_content += "{ ?x rdfs:subClassOf* a:AnalysisProtocol . } UNION { ?y rdfs:subClassOf* a:AnalysisProtocol . ?x rdf:type ?y }"
     elif metadata_param == 'instrument':
         where_content += "{ ?x rdfs:subClassOf* a:InstrumentModel . } UNION { ?y rdfs:subClassOf* a:InstrumentModel . ?x rdf:type ?y }"
-    else:
-        return {'msg': 'Param key not valid'}
 
     query = '''
-            PREFIX a: <http://www.semanticweb.org/alicia/ontologies/2020/8/singleCellRepositories#>
-            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-            SELECT DISTINCT
-                ?x
-            WHERE { ''' + where_content + '}' + "ORDER BY ?x"
+                PREFIX a: <http://www.semanticweb.org/alicia/ontologies/2020/8/singleCellRepositories#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                SELECT DISTINCT
+                    ?x
+                WHERE { ''' + where_content + '}' + "ORDER BY ?x"
 
     print(query)
 
@@ -244,7 +297,7 @@ def get_project_downloads(project_ID):
 
 
 def get_percentile(gen_names=[], cell_types=[], project_IDs=[]):
-    ix = index.open_dir("../../SingleCell-Files/index")
+    ix = index.open_dir("../SingleCell-Files/index")
     qp = QueryParser("content", ix.schema)
     genes_project_IDs = []
     cell_types_project_IDs = []
@@ -285,7 +338,7 @@ def get_percentile(gen_names=[], cell_types=[], project_IDs=[]):
             continue
 
         # If project is not in the index
-        filename = f'../../SingleCell-Files/percentiles/{percentile_project_ID}.percentiles.csv'
+        filename = f'../SingleCell-Files/percentiles/{percentile_project_ID}.percentiles.csv'
         if not os.path.isfile(filename):
             continue
 
@@ -298,7 +351,6 @@ def get_percentile(gen_names=[], cell_types=[], project_IDs=[]):
         print("project_info")
         project_info = requests.get('http://localhost:5001/project/info/' + percentile_project_ID).json()
         print(project_info)
-
 
         # Loop over gen-project
         for df_dict in df.to_dict('records'):
@@ -323,7 +375,7 @@ def get_project_info(project_ID):
           ?projectLink
         WHERE { 
           ?project rdf:type a:Project . ''' + \
-        f'?project a:PR.hasProjectID "{project_ID}" .' + \
+            f'?project a:PR.hasProjectID "{project_ID}" .' + \
             '''
           ?project a:PR.hasProjectRepositoryLink ?projectLink
           OPTIONAL { ?project a:SPR.hasOrganismPart ?organismPart . }
@@ -337,4 +389,3 @@ def get_project_info(project_ID):
     project_info = __fuseki_to_dict(response)
 
     return project_info
-
