@@ -236,7 +236,6 @@ class OntologyConversorSCAE(OntologyConversorAbstract):
         project.sample_type = raw_project['sample_type']
 
         project.part_of_collection = self.parse_word(raw_project['experimentProjects'])
-        project.supplementary_link = raw_project['supplementary_link']
         project.repository_link = raw_project['repository_link']
         project.publication_title = raw_project['publication_title']
         project.publication_link = raw_project['publication_link']
@@ -303,8 +302,6 @@ class OntologyConversorSCAE(OntologyConversorAbstract):
         for key in project_info:
             if key == 'organism':
                 project.specie = self.parse_word(project_info[key])
-            elif key == 'age' or key == 'post conception age':
-                project.min_age, project.max_age, project.age_unit = self.__process_age(project_info[key])
             elif key == 'sex':
                 project.biological_sex = self.map_word(project_info[key])
             elif key == 'organism part':

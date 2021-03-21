@@ -43,7 +43,7 @@ public class MyModel {
 	public static final String SPECIMEN_CLASS = "Specimen";
 	public static final String PROJECT_CLASS = "Project";
 
-	private final String validateLogFileName = "../../SingleCell-Files/validateLog.txt";
+	private final String validateLogFileName = "../../../SingleCell-Files/validateLog.txt";
 	
 	public static final String[] OBJECT_PROPERTIES = new String[] {
 			"SPR.hasAnalysisProtocol",
@@ -58,14 +58,10 @@ public class MyModel {
 			"SPR.hasCellType",
 			"SPR.hasSpecie",
 			"SPR.hasSampleStatus",
-			"SPR.hasDownloads",
 	};
 	
 	public static final String[] SPR_DATA_PROPERTIES = new String[] {
-			"SPR.hasAgeUnit",
 			"SPR.hasSex",
-			"SPR.hasMaxAge",
-			"SPR.hasMinAge",
 			"SPR.hasPhenotype",
 			"SPR.hasTotalCellCount",
 			"SPR.isPairedEnd",
@@ -75,7 +71,9 @@ public class MyModel {
 	};
 	
 	public static final String[] SR_DATA_PROPERTIES = new String[] {
-
+			"SPR.hasAgeUnit",
+			"SPR.hasMaxAge",
+			"SPR.hasMinAge",
 	};
 	
 	public static final String[] PR_DATA_PROPERTIES = new String[] {
@@ -93,7 +91,6 @@ public class MyModel {
 			"SPR.hasProjectTitle",
 			"SPR.isPartOfCollection",
 			"SPR.isPartOfRepository",
-			"SPR.hasTotalSizeOfFilesInMB",
 			"SPR.hasClusteringLink",
             "SPR.hasExperimentDesignLink",
             "SPR.hasExperimentMetadataLink",
@@ -117,7 +114,6 @@ public class MyModel {
 			"PR.hasProjectID",
 			"PR.hasPublicationLink",
 			"PR.hasPublicationTitle",
-			"PR.hasSupplementaryLink",
 			"PR.hasProjectRepositoryLink",
 			"PR.hasUpdateDate"
 	};
