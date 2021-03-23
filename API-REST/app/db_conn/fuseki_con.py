@@ -5,8 +5,9 @@ import os
 
 from whoosh.qparser import QueryParser
 
-server_name = 'http://localhost:3030'
-service_name = 'ds'
+# server_name = 'http://localhost:3030' # URL in local
+server_name = 'http://fuseki_1:3030' # URL in docker
+service_name = 'new_db'
 request_url = server_name + '/' + service_name
 URI_prefix = 'http://www.semanticweb.org/alicia/ontologies/2020/8/singleCellRepositories#'
 
@@ -118,11 +119,11 @@ def get_projects(params={}):
 
     for key, value in params.items():
         if key == 'disease':
-            where_content += f" ?project a:SPR.hasDisease ?disease . ?subClasses rdfs:subClassOf* a:{value} . ?disease rdf:type ?subClasses ."
+            where_content += " { ?project a:SPR.hasDisease ?disease . ?subClasses rdfs:subClassOf* a:" + value + ". ?disease rdf:type ?subClasses . } UNION { ?project a:SPR.hasDisease a:" + value + " . }"
         elif key == 'cell_type':
-            where_content += f" ?project a:SPR.hasCellType ?cellType . ?subClasses rdfs:subClassOf* a:{value} . ?cellType rdf:type ?subClasses ."
+            where_content += " { ?project a:SPR.hasCellType ?cellType . ?subClasses rdfs:subClassOf* a:" + value + ". ?cellType rdf:type ?subClasses . } UNION { ?project a:SPR.hasCellType a:" + value + " . }"
         elif key == 'organism_part':
-            where_content += f" ?project a:SPR.hasOrganismPart ?organismPart . ?subClasses rdfs:subClassOf* a:{value} . ?organismPart rdf:type ?subClasses ."
+            where_content += " { ?project a:SPR.hasOrganismPart ?organismPart . ?subClasses rdfs:subClassOf* a:" + value + ". ?organismPart rdf:type ?subClasses . } UNION { ?project a:SPR.hasOrganismPart a:" + value + " . }"
         elif key == 'sex':
             where_content += " ?project a:SPR.hasSex \"" + value + "\" ."
         else:
