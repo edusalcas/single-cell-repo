@@ -5,8 +5,9 @@ import os
 
 from whoosh.qparser import QueryParser
 
-server_name = 'http://localhost:3030'
-service_name = 'ds'
+# server_name = 'http://localhost:3030' # URL in local
+server_name = 'http://fuseki_1:3030' # URL in docker
+service_name = 'new_db'
 request_url = server_name + '/' + service_name
 URI_prefix = 'http://www.semanticweb.org/alicia/ontologies/2020/8/singleCellRepositories#'
 

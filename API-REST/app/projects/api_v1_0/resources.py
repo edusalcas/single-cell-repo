@@ -1,7 +1,7 @@
 import ast
 
 from flask import request, Blueprint, jsonify
-from flask_restful import Api, Resource
+from flask_restful import Api
 
 from ...db_conn import fuseki_con
 
