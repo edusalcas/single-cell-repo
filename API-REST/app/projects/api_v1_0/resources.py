@@ -3,7 +3,7 @@ import ast
 from flask import request, Blueprint, jsonify
 from flask_restful import Api
 
-from ...db_conn import fuseki_con
+from ...db_conn import conn_controller as conn
 
 projects_v1_0_bp = Blueprint('projects_v1_0_bp', __name__)
 
@@ -35,8 +35,6 @@ def get_projects():
       200:
         description: List of projects that meet selected parameters
     """
-    if not fuseki_con.conn_alive():
-        return jsonify({'Internal error': 'Internal server is dead'})
 
     params = {}
 
@@ -52,7 +50,7 @@ def get_projects():
     if sex is not None:
         params['sex'] = sex
 
-    projects = fuseki_con.get_projects(params)
+    projects = conn.get_projects(params)
 
     return jsonify(projects)
 
@@ -75,9 +73,10 @@ def get_project_info(project_ID):
         description: Information of the project associated with the project_ID
     """
 
-    project_info = fuseki_con.get_project_info(project_ID)
+    project_info = conn.get_project_info(project_ID)
 
     return jsonify(project_info)
+
 
 @projects_v1_0_bp.route("/project/metadata/<param>", methods=['GET'])
 def get_project_metadata(param):
@@ -109,13 +108,11 @@ def get_project_metadata(param):
           200:
             description: List of values for metadata parameter
     """
-    if not fuseki_con.conn_alive():
-        return jsonify({'Internal error': 'Internal server is dead'})
 
     if param is None:
         return jsonify({'msg': 'param needed'})
 
-    metadata_list = fuseki_con.get_project_metadata(param)
+    metadata_list = conn.get_project_metadata(param)
 
     return jsonify(metadata_list)
 
@@ -142,7 +139,7 @@ def get_project_downloads(project_ID):
     if project_ID is None:
         return jsonify({'msg': 'project_ID needed'})
 
-    downloads = fuseki_con.get_project_downloads(project_ID)
+    downloads = conn.get_project_downloads(project_ID)
 
     return jsonify(downloads)
 
@@ -208,6 +205,6 @@ def get_percentile():
         elif key == 'project_IDs':
             project_IDs = value
 
-    percentiles = fuseki_con.get_percentile(gen_names, cell_types, project_IDs)
+    percentiles = conn.get_percentile(gen_names, cell_types, project_IDs)
 
     return jsonify(percentiles)
