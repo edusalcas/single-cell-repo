@@ -139,6 +139,8 @@ def get_project_metadata_without_URI(metadata_param):
         where_content += "{ ?x rdfs:subClassOf* a:AnalysisProtocol . } UNION { ?y rdfs:subClassOf* a:AnalysisProtocol . ?x rdf:type ?y }"
     elif metadata_param == 'instrument':
         where_content += "{ ?x rdfs:subClassOf* a:InstrumentModel . } UNION { ?y rdfs:subClassOf* a:InstrumentModel . ?x rdf:type ?y }"
+    elif metadata_param == 'project_ID':
+        where_content += " ?project a:PR.hasProjectID ?x ."
 
     query = '''
                 PREFIX a: <http://www.semanticweb.org/alicia/ontologies/2020/8/singleCellRepositories#>

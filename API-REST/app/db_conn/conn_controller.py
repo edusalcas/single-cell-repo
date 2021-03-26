@@ -13,7 +13,7 @@ def get_project_info(project_ID):
 
 def get_project_metadata(metadata_param):
     metadata_param_with_URI = ['disease', 'cell_type', 'organism_part', 'biopsy_site']
-    metadata_param_without_URI = ['sex', 'repository', 'library', 'specie', 'analysis_protocol', 'instrument']
+    metadata_param_without_URI = ['sex', 'repository', 'library', 'specie', 'analysis_protocol', 'instrument', 'project_ID']
 
     if metadata_param in metadata_param_with_URI:
         return fuseki.get_project_metadata_with_URI(metadata_param)

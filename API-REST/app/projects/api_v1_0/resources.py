@@ -102,6 +102,7 @@ def get_project_metadata(param):
                     - specie
                     - library
                     - biopsy_site
+                    - project_ID
                 default: disease
             collectionFormat: multi
         responses:
