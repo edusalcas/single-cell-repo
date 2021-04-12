@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9bf62a33-f7b0-4523-b5f7-4b134246b07c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Experiments/Percentile_groups.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Experiments/Percentile_groups.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Experiments/Percentiles/Generate_quantiles.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Experiments/Percentiles/Generate_quantiles.ipynb" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="JupyterTrust" id="99e25f86-82c7-445d-b4ce-f60a77c919b8" />
+  <component name="ProjectId" id="1qIH93KvTgyN695o0vdSupLSlyb" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9bf62a33-f7b0-4523-b5f7-4b134246b07c" name="Default Changelist" comment="" />
+      <created>1616760029719</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1616760029719</updated>
+      <workItem from="1616760035356" duration="633000" />
+      <workItem from="1617011629518" duration="981000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+</project>
