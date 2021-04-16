@@ -1,0 +1,195 @@
+---
+title: "Accesing Single-cell API REST from R"
+author: 
+- Alicia Gómez
+- Eduardo Salmerón
+date: "`r format(Sys.time(), '%d/%m/%y')`"
+output: 
+  html_document:
+    theme: spacelab
+    highlight: kate
+    df_print: paged
+    toc: true
+    toc_float: true
+    number_sections: true
+---
+
+<style>
+body {
+text-align: justify}
+</style>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+source("/home/aligo/API/functions.R")
+source("/home/aligo/API/scGCNsFunctions.R")
+APIpath <- "http://194.4.102.168:5000/"
+library(gridExtra)
+library(dplyr)
+# https://medium.com/@traffordDataLab/querying-apis-in-r-39029b73d5f1
+```
+
+
+# Cell.type vs Inferred.cell.type
+
+```{r, eval=FALSE, echo=FALSE}
+results <- as.data.frame(matrix(numeric(),nrow = 0, ncol = 8))
+source("/home/aligo/API/functions.R")
+workingPath <- NULL
+APIpath <- NULL
+IDs <- rjson::fromJSON(file="/home/aligo/API/SCEA_IDs.json")
+cts <- c("cell.type$", "ontology.labels$", "authors.labels$")
+organism <- c()
+developmentalStage <- c()
+
+for (ID in IDs) {
+ 
+  metadata <- getMetadata(ID, workingPath, APIpath, save=F)
+  numOfCells <- rep(0, length(cts))
+  numOfCTs <- rep(0, length(cts))
+  
+  for (i in 1:length(cts)) {
+    index <- grep(cts[i], colnames(metadata))
+    
+    if(length(index)>0) {
+      myCT <- as.character(metadata[, index])
+      myCT <- myCT[myCT!=""]
+      myCT <- myCT[myCT!="not applicable"]
+      numOfCells[i] <- length(myCT)
+      numOfCTs[i] <- length(unique(myCT))
+    }
+  }
+
+  ds <- grep("^SC.developmental.stage$", colnames(metadata))
+  
+  if (length(ds)>0) {
+    ds <- paste0(unique(metadata[, ds]), collapse=", ")
+    
+  } else {
+    ds <- grep("^SC.age$", colnames(metadata))
+    
+    if (length(ds)>0) {
+      ds <- paste0(unique(metadata[, ds]), collapse=", ")
+    } else {
+      ds <- 0
+    }
+    
+  }
+  
+  developmentalStage <- c(developmentalStage, ds)
+  organism <- c(organism, as.character(unique(metadata$SC.organism)))
+  results <- rbind(results, c(nrow(metadata), numOfCells, numOfCTs))
+}
+
+results <- as.data.frame(cbind(organism, developmentalStage, results))
+colnames(results) <- c("organism", "developmentalStages", "totalCells", "labeledCells", "ontologyLabeledCells", "authorsLabeledCells", "CTs", "ontologyCTs", "authorsCTs")
+rownames(results) <- IDs
+saveRDS(results, "/home/aligo/API/cell_types.rds")
+```
+
+```{r, echo=FALSE}
+# Projects with more than one age unit
+# E-ENAD-27 
+# E-GEOD-124263 
+# E-GEOD-130473 
+# E-GEOD-75140 
+# E-GEOD-83139
+```
+
+
+
+```{r, echo=FALSE}
+results <- readRDS("/home/aligo/API/cell_types.rds")
+results[1:5, ]
+```
+
+
+```{r, echo=FALSE}
+cat("Number of projects from SCEA:", nrow(results), "\n")
+```
+
+```{r, echo=FALSE}
+counts <- rowSums(results[, c(4,5,6)])
+myResults <- results[match(names(counts[counts==0]), rownames(results)), ]
+cat("Number of projects from SCEA without cell-type labels:", nrow(myResults), "\n")
+```
+
+
+```{r, echo=FALSE}
+counts <- rowSums(results[, c(4,5,6)])
+projectsWOct <- results[match(names(counts[counts==0]), rownames(results)), ]
+ds <- unique(results$developmentalStages)[grep("adult", unique(results$developmentalStages))]
+projectsWOct <- projectsWOct[projectsWOct$organism=="Homo sapiens" & projectsWOct$developmentalStages %in% ds, ]
+
+cat("Number of projects from SCEA without cell-type labels from adult Homo Sapiens:", length(projectsWOct))
+```
+
+
+```{r, echo=FALSE}
+counts <- as.data.frame(table(results$organism))
+colnames(counts) <- c("organism", "numOfProjects")
+counts$numOfProjects <- (counts$numOfProjects/sum(counts$numOfProjects))*100
+counts <- counts[order(counts$numOfProjects, decreasing=F), ]
+counts$organism <- factor(counts$organism, levels=counts$organism)
+
+ggplot(data=counts, aes(x=numOfProjects, y=organism, fill=organism)) +
+  geom_bar(stat="identity") +
+  theme_light() +
+  xlab("Projects(%)") +
+  theme(legend.position="none") 
+```
+
+
+```{r, echo=FALSE}
+results2 <- results %>% group_by(organism) %>% summarise(totalCells = sum(totalCells))
+results2$totalCells <- (results2$totalCells/sum(results2$totalCells))*100
+results2 <- results2[order(results2$totalCells, decreasing=F), ]
+results2$organism <- factor(results2$organism, levels=results2$organism)
+
+ggplot(results2, aes(x=totalCells, y=organism, fill=organism)) + 
+  geom_bar(stat="identity") +
+  xlab("Cells(%)") +
+  theme_light() +
+  theme(legend.position="none")
+```
+
+
+```{r, echo=FALSE}
+results2 <- results[, c(4,5,6)]
+results2[results2!=0] <- 1
+noLabel <- rowSums(results2)
+noLabel <- noLabel[noLabel==0]
+cts <- c(colSums(results2), length(noLabel))
+names(cts)[4] <- "noLabel"
+
+counts <- setDT(as.data.frame(cts), keep.rownames = T)
+colnames(counts) <- c("criteria", "count")
+counts$count <- (counts$count/sum(counts$count))*100
+counts <- counts[order(counts$count, decreasing=T), ]
+counts$criteria <- factor(counts$criteria, levels=counts$criteria)
+
+ggplot(counts, aes(x=criteria, y=count, fill=criteria)) +
+        geom_bar(stat="identity") + 
+        theme_light() + 
+        theme(legend.position="none") +
+        xlab("") +
+        ylab("Projects(%)")
+```
+
+
+```{r, echo=FALSE}
+counts <- setDT(as.data.frame(colSums(results[, c(7,8,9)])), keep.rownames = T)
+colnames(counts) <- c("criteria", "count")
+counts <- counts[order(counts$count, decreasing=T), ]
+counts$criteria <- factor(counts$criteria, levels=counts$criteria)
+
+ggplot(counts, aes(x=criteria, y=count, fill=criteria)) +
+      geom_bar(stat="identity") + 
+      theme_light() + 
+      theme(legend.position="none") + 
+      xlab("") +
+      ylab("Number of cell-types")
+```
+
+
