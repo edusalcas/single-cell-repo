@@ -1,0 +1,170 @@
+project_ID,num_subgroups,num_cells,characteristics_used
+091cf39b-01bc-42e5-9437-f419a66c8a45,1,32445,organism/organism part/developmental stage/disease/cell type
+116965f3-f094-4769-9d28-ae675c1b569c,2,6209,organism/organism part/developmental stage/disease/cell type
+2043c65a-1cf8-4828-a656-9e247d4e64f1,1,1733,organism/organism part/cell line/cell type
+4a95101c-9ffc-4f30-a809-f04518a23803,3,63729,organism/organism part/sampling site/developmental stage/disease/cell type
+4d6f6c96-2a83-43d8-8fe1-0f53bffd4674,14,8257,organism/organism part/sampling site/developmental stage/disease/inferred cell type - ontology labels
+8c3c290d-dfff-4553-8868-54ce45f4ba7f,31,6396,organism/organism part/sampling site/disease/inferred cell type - authors labels
+E-CURD-10,2,118,organism/organism part/sampling site/metastatic site/developmental stage/disease
+E-CURD-11,3,176,organism/organism part/metastatic site/developmental stage/cell line/disease/cell type
+E-CURD-12,13,10722,organism/organism part/sampling site/developmental stage/disease/inferred cell type - ontology labels
+E-CURD-13,11,6770,organism/organism part/sampling site/developmental stage/disease/inferred cell type - ontology labels
+E-CURD-2,1,188,organism/developmental stage
+E-CURD-21,1,809,organism/organism part/developmental stage
+E-CURD-3,2,406,organism/developmental stage
+E-CURD-4,1,12742,organism/organism part/developmental stage/cell type
+E-CURD-46,64,62497,organism/organism part/sampling site/developmental stage/disease/inferred cell type - ontology labels
+E-CURD-5,1,4028,organism/organism part/developmental stage/cell type
+E-CURD-52,23,11340,organism/organism part/developmental stage/inferred cell type - ontology labels
+E-CURD-53,2,197538,organism/organism part/metastatic site/developmental stage/cell line/disease
+E-CURD-55,2,97588,organism/organism part/developmental stage/disease
+E-CURD-56,1,9573,organism/organism part/developmental stage/cell type
+E-CURD-57,1,2167,organism/organism part/developmental stage/cell type
+E-CURD-6,5,1024,organism/organism part/developmental stage/disease/cell type
+E-CURD-7,2,809,organism/organism part/sampling site/developmental stage/disease
+E-CURD-9,1,12271,organism/organism part
+E-ENAD-13,1,1521,organism/organism part/cell type
+E-ENAD-14,1,387,organism/organism part/cell type
+E-ENAD-16,1,172,organism/developmental stage
+E-ENAD-17,1,96,organism/organism part/disease
+E-ENAD-18,1,35,organism/developmental stage/cell type
+E-ENAD-19,1,26,organism/organism part/cell type
+E-ENAD-20,1,674,organism/organism part/metastatic site/disease
+E-ENAD-21,2,809,organism/organism part/cell type
+E-ENAD-27,4,503,organism/organism part/disease/inferred cell type - ontology labels
+E-ENAD-30,1,9031,organism/organism part/developmental stage/cell type
+E-GEOD-100058,4,1707,organism/organism part/developmental stage/cell type
+E-GEOD-100426,3,1608,organism/organism part/cell type
+E-GEOD-100618,3,415,organism/organism part/cell type
+E-GEOD-100911,6,246,organism/organism part/cell type
+E-GEOD-102475,1,163,organism/organism part/cell type
+E-GEOD-103011,2,115,organism/organism part/developmental stage
+E-GEOD-103334,1,2098,organism/organism part/developmental stage/cell type
+E-GEOD-106973,2,141,organism/organism part/cell type
+E-GEOD-108221,8,501,organism/organism part/sampling site/developmental stage/cell type
+E-GEOD-109159,1,1072,organism/organism part/developmental stage
+E-GEOD-109796,6,2668,organism/organism part/developmental stage
+E-GEOD-109979,1,329,organism/cell line/cell type
+E-GEOD-110499,2,173,organism/organism part/disease/cell type
+E-GEOD-111727,2,342,organism/organism part/disease/cell type
+E-GEOD-114530,22,12525,organism/organism part/developmental stage/disease/inferred cell type - authors labels
+E-GEOD-121619,1,8646,organism/organism part/developmental stage/cell type
+E-GEOD-123013,1,49067,organism/organism part/developmental stage/cell type
+E-GEOD-124263,2,51504,organism/organism part/developmental stage/disease
+E-GEOD-124472,3,16094,organism/organism part/developmental stage/cell line/cell type
+E-GEOD-124858,1,241,organism/organism part/sampling site/developmental stage/disease/cell type
+E-GEOD-125970,4,18540,organism/organism part/sampling site/developmental stage/disease/cell type
+E-GEOD-130148,27,4204,organism/organism part/sampling site/disease/inferred cell type - ontology labels
+E-GEOD-130473,2,1307,organism/organism part/developmental stage/disease/cell type
+E-GEOD-134144,8,7416,organism/organism part/developmental stage/disease/inferred cell type - ontology labels
+E-GEOD-135922,71,18098,organism/organism part/sampling site/biopsy site/disease/inferred cell type - ontology labels
+E-GEOD-137537,2,7275,organism/organism part/sampling site/disease/cell type
+E-GEOD-139324,22,164277,organism/organism part/sampling site/disease/cell type
+E-GEOD-141273,12,27636,organism/organism part/developmental stage/inferred cell type - ontology labels
+E-GEOD-146122,2,22530,organism/organism part/sampling site/developmental stage/cell type
+E-GEOD-149689,3,77690,organism/disease/cell type
+E-GEOD-150728,2,92783,organism/organism part/developmental stage/disease/cell type
+E-GEOD-36552,2,64,organism/organism part/developmental stage/cell type
+E-GEOD-70580,4,648,organism/organism part/disease/cell type
+E-GEOD-71585,18,1287,organism/organism part/developmental stage/inferred cell type - ontology labels
+E-GEOD-75140,6,734,organism/organism part/sampling site/developmental stage/cell line/disease/cell type
+E-GEOD-75367,1,74,organism/organism part/disease/cell type
+E-GEOD-75688,2,540,organism/organism part/sampling site/disease
+E-GEOD-76312,2,2151,organism/organism part/disease/cell type
+E-GEOD-77944,0,0,organism/organism part/developmental stage/inferred cell type - authors labels
+E-GEOD-81383,3,226,organism/organism part/metastatic site/cell line/disease
+E-GEOD-81608,8,1600,organism/organism part/disease/inferred cell type - ontology labels
+E-GEOD-81682,3,1920,organism/organism part/cell type
+E-GEOD-83139,4,635,organism/organism part/developmental stage/disease/cell type
+E-GEOD-84465,10,3551,organism/organism part/biopsy site/disease/inferred cell type - ontology labels
+E-GEOD-86618,2,540,organism/organism part/disease/cell type
+E-GEOD-87631,1,1147,organism/organism part/cell type
+E-GEOD-89232,3,957,organism/organism part/cell type
+E-GEOD-89910,2,200,organism/organism part/developmental stage/disease/cell type
+E-GEOD-90848,6,1078,organism/organism part/developmental stage/inferred cell type - authors labels
+E-GEOD-94641,2,207,organism/organism part/inferred cell type - ontology labels
+E-GEOD-98556,2,546,organism/organism part/developmental stage/cell line/disease/cell type
+E-GEOD-98816,1,3186,organism/organism part/developmental stage
+E-GEOD-99058,1,250,organism/organism part/developmental stage
+E-GEOD-99235,1,1504,organism/organism part/developmental stage
+E-GEOD-99795,1,144,organism/organism part/metastatic site/cell line/disease/cell type
+E-MTAB-2983,1,38,organism/organism part/biopsy site/developmental stage/disease
+E-MTAB-4547,2,378,organism/organism part/developmental stage/cell type
+E-MTAB-4617,2,808,organism/organism part/developmental stage
+E-MTAB-4850,1,42,organism/organism part/cell line/disease/cell type
+E-MTAB-4888,2,2320,organism/organism part/cell type
+E-MTAB-5485,1,96,organism/organism part/cell line/disease/cell type
+E-MTAB-5530,1,1354,organism/organism part/developmental stage/cell type
+E-MTAB-5553,1,120,organism/organism part/developmental stage/cell type
+E-MTAB-5661,2,284,organism/developmental stage/cell line/cell type
+E-MTAB-5727,1,164,organism/organism part/disease/cell type
+E-MTAB-5802,1,288,organism/organism part/disease/cell type
+E-MTAB-6051,1,566,organism/organism part/disease/cell type
+E-MTAB-6058,1,73,organism/organism part/developmental stage/disease/cell type
+E-MTAB-6077,1,96,organism/organism part/developmental stage
+E-MTAB-6108,1,1449,organism/cell line/disease/cell type
+E-MTAB-6142,1,96,organism/organism part/cell line/disease
+E-MTAB-6173,1,11579,organism/organism part/developmental stage/cell type
+E-MTAB-6308,6,77638,organism/organism part/sampling site/disease/cell type
+E-MTAB-6362,1,333,organism/organism part/developmental stage/cell line/cell type
+E-MTAB-6379,1,119,organism/organism part/developmental stage/disease/cell type
+E-MTAB-6385,1,375,organism/organism part/sampling site/developmental stage/cell type
+E-MTAB-6386,4,117,organism/organism part/developmental stage/disease/cell type
+E-MTAB-6487,2,12202,organism/organism part/disease/cell type
+E-MTAB-6505,1,10316,organism/organism part/developmental stage/disease/cell type
+E-MTAB-6524,1,10475,organism/organism part/developmental stage/disease/cell type
+E-MTAB-6653,4,33209,organism/organism part/sampling site/disease
+E-MTAB-6677,1,3083,organism/organism part/cell type
+E-MTAB-6818,1,57,organism/organism part/cell line/disease/cell type
+E-MTAB-6819,1,1344,organism/organism part/developmental stage/cell line/disease/cell type
+E-MTAB-6879,2,1837,organism/organism part/cell type
+E-MTAB-6911,2,332,organism/organism part/developmental stage/disease/cell type
+E-MTAB-6912,1,40,organism/organism part/developmental stage/disease/inferred cell type - ontology labels
+E-MTAB-6925,1,87,organism/organism part/developmental stage/disease/cell type
+E-MTAB-6945,2,10298,organism/organism part/developmental stage/disease/cell type
+E-MTAB-6946,1,84019,organism/organism part
+E-MTAB-6970,3,288,organism/organism part/developmental stage/cell type
+E-MTAB-6976,1,845,organism/organism part/cell type
+E-MTAB-6987,1,95,organism/organism part/sampling site/developmental stage/disease/cell type
+E-MTAB-7008,1,1018,organism/organism part/developmental stage/cell line/disease/cell type
+E-MTAB-7037,1,590,organism/organism part/disease/cell type
+E-MTAB-7051,1,681,organism/organism part/disease/cell type
+E-MTAB-7052,1,1920,organism/organism part/disease/cell type
+E-MTAB-7078,3,174,organism/organism part/developmental stage/inferred cell type - ontology labels
+E-MTAB-7094,1,3064,organism/organism part/developmental stage/cell type
+E-MTAB-7098,1,279,organism/organism part/sampling site/developmental stage/cell type
+E-MTAB-7117,5,961,organism/organism part/developmental stage/cell type
+E-MTAB-7142,2,18818,organism/organism part/disease
+E-MTAB-7149,1,7999,organism/organism part/disease/cell type
+E-MTAB-7159,1,11969,organism/organism part/developmental stage
+E-MTAB-7194,1,6237,organism/organism part/developmental stage
+E-MTAB-7195,1,6408,organism/organism part/developmental stage
+E-MTAB-7249,2,192,organism/organism part/disease/cell type
+E-MTAB-7303,2,123,organism/organism part/developmental stage/disease/cell type
+E-MTAB-7311,10,38071,organism/organism part/cell type
+E-MTAB-7320,5,97772,organism/organism part/sampling site/developmental stage/disease
+E-MTAB-7324,2,16937,organism/organism part/developmental stage/disease
+E-MTAB-7325,1,60544,organism/organism part/developmental stage/disease
+E-MTAB-7365,1,121,organism/organism part/developmental stage/disease
+E-MTAB-7376,1,41779,organism/organism part/developmental stage
+E-MTAB-7381,1,352,organism/organism part/developmental stage/disease/cell type
+E-MTAB-7407,4,316651,organism/organism part/developmental stage/disease
+E-MTAB-7417,1,2772,organism/organism part/developmental stage/disease
+E-MTAB-7427,3,6432,organism/organism part/sampling site/developmental stage
+E-MTAB-7606,1,209,organism/organism part/developmental stage/cell type
+E-MTAB-7660,1,4266,organism/organism part/sampling site/developmental stage/disease/cell type
+E-MTAB-7678,2,7052,organism/organism part/developmental stage/cell type
+E-MTAB-7703,1,19115,organism/organism part/developmental stage/cell type
+E-MTAB-7901,3,1009,organism/organism part/developmental stage/disease/cell type
+E-MTAB-8077,11,40474,organism/organism part/developmental stage/cell type
+E-MTAB-8221,4,142523,organism/organism part/sampling site/developmental stage/disease
+E-MTAB-8410,139,24531,organism/organism part/sampling site/developmental stage/disease/inferred cell type - ontology labels
+E-MTAB-8483,4,30582,organism/organism part/sampling site/disease
+E-MTAB-8559,1,20321,organism/organism part/metastatic site/developmental stage/disease/cell type
+E-MTAB-8698,1,14180,organism/organism part/developmental stage/cell type
+E-MTAB-8810,1,39686,organism/organism part/developmental stage/cell type
+E-MTAB-9221,10,5016,organism/organism part/developmental stage/disease/inferred cell type - ontology labels
+abe1a013-af7a-45ed-8c26-f3793c24a1f4,28,25219,organism/organism part/developmental stage/disease/inferred cell type - ontology labels
+ae71be1d-ddd8-4feb-9bed-24c3ddb6e1ad,2,3229,organism/organism part/disease/cell type
+cc95ff89-2e68-4a08-a234-480eca21ce79,2,606606,organism/organism part/developmental stage/cell type
+f8aa201c-4ff1-45a4-890e-840d63459ca2,2,23517,organism/organism part/sampling site/developmental stage/disease/cell type

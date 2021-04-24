@@ -8,3 +8,5 @@ Experiments/.ipynb_checkpoints/
 Experiments/Database/.ipynb_checkpoints/
 
 Experiments/Percentiles/.ipynb_checkpoints/
+
+*.pyc
