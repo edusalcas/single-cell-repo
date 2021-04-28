@@ -6,10 +6,10 @@ class PostgresConnection(object):
     def __enter__(self):
         # connect to the PostgreSQL server
         self.conn = psycopg2.connect(
-            host="localhost",
-            database="test",
-            user="postgres",
-            password="123"
+            host="194.4.103.57",
+            database="sc-db",
+            user="sc-user",
+            password="single-cell21."
         )
 
         return self.conn
