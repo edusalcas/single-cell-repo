@@ -26,7 +26,8 @@ def generate_percentiles(project_ID, subsampling, matrix, gene_names):
         A dataframe of one row with the information of the sumsampling
     """
     sub_cells_index = subsampling['dataframe']['Assay'].index
-    sub_matrix = matrix.A[sub_cells_index]
+    matrix = matrix.tocsr()
+    sub_matrix = matrix[sub_cells_index].A
 
     sub_matrix_mean = np.mean(sub_matrix, axis=0)
     sub_matrix_mean_without_zeros = sub_matrix_mean[sub_matrix_mean != 0]
