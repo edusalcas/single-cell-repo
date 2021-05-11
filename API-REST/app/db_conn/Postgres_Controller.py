@@ -1,4 +1,6 @@
 import psycopg2
+import pandas as pd
+
 from io import StringIO
 
 
@@ -7,7 +9,7 @@ class PostgresConnection(object):
     def __enter__(self):
         # connect to the PostgreSQL server
         self.conn = psycopg2.connect(
-            host="194.4.103.57",
+            host="localhost",
             database="sc-db",
             user="sc-user",
             password="single-cell21."
@@ -17,7 +19,7 @@ class PostgresConnection(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.conn.close()
-        
+
 
 class PostgresController(object):
 
@@ -62,12 +64,54 @@ class PostgresController(object):
 
         if percentile_group_id is not None:
             return percentile_group_id[0]
-            
+
+    def get_percentile(self, gene_names, cell_types, project_IDs):
+        gene_names = tuple(gene_names)
+        cell_types = tuple(cell_types)
+        project_IDs = tuple(project_IDs)
+
+        query = f"""
+            SELECT 
+                gene_name,
+                percentile,
+                project_id,
+                metadata,
+                number_genes,
+                number_cells
+            FROM 
+                percentiles INNER JOIN percentil_groups ON percentiles.percentil_group = percentil_groups.id
+        """
+
+        if gene_names or cell_types or project_IDs:
+            where = "WHERE"
+            add_and = False
+
+            if gene_names:
+                where += f" gene_name IN {gene_names}"
+                add_and = True
+            if project_IDs:
+                if add_and:
+                    where += " AND"
+                where += f" project_id IN {project_IDs}"
+                add_and = True
+            if cell_types:
+                if add_and:
+                    where += " AND"
+                where += f" metadata->>'cell type' IN {cell_types}"
+                add_and = True
+            # TODO add more filter characteristics
+
+            query += where
+
+        with PostgresConnection() as conn:
+            percentiles = pd.read_sql_query(query, conn)
+
+        return percentiles.to_dict(orient="records")
 
     def add_percentile_group(self, project_id, metadata, number_genes, number_cells):
         percentile_group_id = self.get_percentile_group_id(project_id, metadata, number_genes, number_cells)
         metadata_str = str(metadata).replace("'", '"')
-        
+
         if percentile_group_id is not None:
             return percentile_group_id
 
@@ -86,20 +130,19 @@ class PostgresController(object):
 
         with PostgresConnection() as conn:
             cur = conn.cursor()
-            
+
             # execute command
             cur.execute(command)
             percentile_group_id = cur.fetchone()
 
             # close communication with the PostgreSQL database server
             cur.close()
-            
+
             # commit the changes
             conn.commit()
-        
+
         return percentile_group_id[0]
-    
-    
+
     def add_percentile_with_group(self, project_id, gene_name, percentile, number_genes, number_cells, metadata={}):
         percentile_id = -1
 
@@ -128,7 +171,7 @@ class PostgresController(object):
             conn.commit()
 
         return percentile_id[0], percentile_group_id
-    
+
     def add_percentile(self, gene_name, percentile, percentile_group_id):
         command = f"""
             INSERT INTO percentiles (gene_name,
@@ -153,46 +196,43 @@ class PostgresController(object):
             conn.commit()
 
         return percentile_id[0]
-    
-    
+
     def add_sampling_percentiles(self, percentiles, sampling_info, method):
         project_id = sampling_info['project_id'].iloc[0]
         metadata = sampling_info['metadata'].iloc[0]
         number_genes = sampling_info['number_genes'].iloc[0]
         number_cells = sampling_info['number_cells'].iloc[0]
-        
+
         percentile_group_id = self.add_percentile_group(project_id, metadata, number_genes, number_cells)
 
         method(percentiles, percentile_group_id)
 
         return percentile_group_id
-    
-    
+
     def simple_insert_percentile(self, percentiles, percentile_group_id):
         for _, row in percentiles.iterrows():
             gene_name = row['gene_name']
             percentile = row['percentile']
 
-            self.add_percentile(gene_name, 
-                                percentile, 
+            self.add_percentile(gene_name,
+                                percentile,
                                 percentile_group_id)
-            
-     
+
     def insert_many_percentile(self, percentiles, percentile_group_id):
         """
         Using cursor.executemany() to insert the dataframe
         """
         # Create a list of tupples from the dataframe values
         tuples = [tuple(x) for x in percentiles.to_numpy()]
-        
+
         # Comma-separated dataframe columns
         cols = ','.join(list(percentiles.columns)) + ',percentil_group'
-        
+
         # SQL quert to execute
-        query  = f"INSERT INTO percentiles ({cols}) VALUES(%s,%f,{percentile_group_id})"
-        
+        query = f"INSERT INTO percentiles ({cols}) VALUES(%s,%f,{percentile_group_id})"
+
         with PostgresConnection() as conn:
-            
+
             cursor = conn.cursor()
             try:
                 cursor.executemany(query, tuples)
@@ -205,7 +245,7 @@ class PostgresController(object):
                 return 1
 
             cursor.close()
-            
+
     def copy_from_stringio_percentile(self, percentiles, percentile_group_id):
         """
         Here we are going save the dataframe in memory 
@@ -229,4 +269,3 @@ class PostgresController(object):
                 cursor.close()
                 return 1
             cursor.close()
-    

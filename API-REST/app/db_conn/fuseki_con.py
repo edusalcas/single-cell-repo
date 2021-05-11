@@ -204,16 +204,26 @@ def get_project_info(project_ID):
         PREFIX a: <http://www.semanticweb.org/alicia/ontologies/2020/8/singleCellRepositories#>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         SELECT DISTINCT
+          ?projectTitle
+          ?specie
           ?disease
+          ?cellType
           ?organismPart
           ?projectLink
+          ?publicationLink
+          ?publicationTitle
         WHERE { 
           ?project rdf:type a:Project . ''' + \
             f'?project a:PR.hasProjectID "{project_ID}" .' + \
             '''
-          ?project a:PR.hasProjectRepositoryLink ?projectLink
+          ?project a:SPR.hasProjectTitle ?projectTitle .
+          ?project a:SPR.hasSpecie ?specie .
+          ?project a:PR.hasProjectRepositoryLink ?projectLink .
           OPTIONAL { ?project a:SPR.hasOrganismPart ?organismPart . }
           OPTIONAL { ?project a:SPR.hasDisease ?disease . }
+          OPTIONAL { ?project a:SPR.hasCellType ?cellType . }
+          OPTIONAL { ?project a:PR.hasPublicationLink ?publicationLink . }
+          OPTIONAL { ?project a:PR.hasPublicationTitle ?publicationTitle . }
         }
     '''
 
