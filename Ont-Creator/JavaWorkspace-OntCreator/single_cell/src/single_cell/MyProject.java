@@ -1,6 +1,5 @@
 package single_cell;
 
-import java.util.List;
 
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
@@ -8,7 +7,6 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class MyProject extends MyIndividual{

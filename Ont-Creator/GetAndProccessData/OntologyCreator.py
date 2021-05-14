@@ -16,11 +16,11 @@ def format_id_number(number_id):
 
 class OntologyCreator:
 
-    def __init__(self):
+    def __init__(self, specimen_id_counter=0, project_id_counter=0):
         self.hca_conversor = OntologyConversorHCA()
         self.scae_conversor = OntologyConversorSCAE()
-        self.specimen_id_counter = 0
-        self.project_id_counter = 0
+        self.specimen_id_counter = specimen_id_counter
+        self.project_id_counter = project_id_counter
         self.specimens = []
         self.projects = []
 

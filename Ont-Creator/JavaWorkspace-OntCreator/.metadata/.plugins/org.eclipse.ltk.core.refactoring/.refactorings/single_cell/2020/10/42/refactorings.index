@@ -1,8 +1,0 @@
-1602751395499	Delete element
-1602753709290	Delete element
-1602754112003	Delete element
-1602766523266	Extract method 'executeQuery'
-1602768714877	Rename local variable 'queryStringNumProyects'
-1602768993794	Rename local variable 'queryStringNumLabs'
-1602769084414	Rename local variable 'queryStringNumSpecimens'
-1602769868892	Rename local variable 'queryStringNumLabs'

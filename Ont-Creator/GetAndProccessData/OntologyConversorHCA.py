@@ -1091,10 +1091,10 @@ class OntologyConversorHCA(OntologyConversorAbstract):
         project.publication_title = publication_titles
         project.publication_link = publication_links
 
-        project.array_express_id = array_express
-        project.geo_series_id = geo_series
-        project.insdc_project_id = insdc_project
-        project.insdc_study_id = insdc_study
+        project.array_express_id = "https://www.ebi.ac.uk/arrayexpress/experiments/" + array_express
+        project.geo_series_id = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=" + geo_series
+        project.insdc_project_id = "https://www.ebi.ac.uk/ena/browser/view/" + insdc_project
+        project.insdc_study_id = "https://www.ebi.ac.uk/ena/browser/view/" + insdc_study
 
         return project
 
