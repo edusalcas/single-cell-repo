@@ -8,7 +8,7 @@ As we said, we need two documents for the metadata. The first one has the data o
 
 ### Project information
 
-This file is a csv (with comma separator) with key - value pairs with no header. A template is given in this GitHub called `project_info_template.csv`. If a field does not have a value, it should be empty in the file too, but the pair has to exist.
+This file is a csv (with comma separator) with key - value pairs with no header. A [template](project_info_template.csv) is given in this GitHub. If a field does not have a value, it should be empty in the file too, but the pair has to exist.
 
 The fields of the document are:
 
@@ -33,7 +33,7 @@ If one of these fields is not present in the file or some one is misspelled, the
 
 ### Metadata table
 
-Once again, this file is a csv with header. This table has a number of rows equals to the number of cells studied in the project and a number of columns equals to the number of metadata variables used to characterize the cells. Once again, a template of the file is given in the repository, called `metadata_table_template.csv`. In this table, the values of the metadata has to have the same names as the values of the instances in the ontology. You can use the metadata searching tool in the REST API of the respository.
+Once again, this file is a csv with header. This table has a number of rows equals to the number of cells studied in the project and a number of columns equals to the number of metadata variables used to characterize the cells. Once again, a [template](metadata_table_template.csv) of the file is given in the repository. In this table, the values of the metadata has to have the same names as the values of the instances in the ontology. You can use the metadata searching tool in the REST API of the respository.
 
 On the other hand, the column names (metadata) are:
 
