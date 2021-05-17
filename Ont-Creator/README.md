@@ -8,7 +8,7 @@ As we said, we need two documents for the metadata. The first one has the data o
 
 ### Project information
 
-This file is a csv (with comma separator) with key - value pairs with no header. A [template](project_info_template.csv) is given in this GitHub. If a field does not have a value, it should be empty in the file too, but the pair has to exist.
+This file is a csv (with comma separator) with key - value pairs with no header. A [template](project_info_template.csv) is given in this GitHub. If a field does not have a value, you can remove the row or leave the key with a blank value.
 
 The fields of the document are:
 
@@ -29,13 +29,13 @@ The fields of the document are:
 - publication_title
 - publication_link
 
-If one of these fields is not present in the file or some one is misspelled, the code will throw an error and the project won't be created.
+If one of these fields is misspelled or does not exists, the code will throw an error and the project won't be created.
 
 ### Metadata table
 
-Once again, this file is a csv with header. This table has a number of rows equals to the number of cells studied in the project and a number of columns equals to the number of metadata variables used to characterize the cells. Once again, a [template](metadata_table_template.csv) of the file is given in the repository. In this table, the values of the metadata has to have the same names as the values of the instances in the ontology. You can use the metadata searching tool in the REST API of the respository.
+Once again, this file is a csv with header. This table has a number of rows equals to the number of cells studied in the project and a number of columns equals to the number of metadata variables used to characterize the cells. Once again, a [template](metadata_table_template.csv) of the file is given in the repository. In this table, the values of the metadata has to have the same names as the values of the instances in the ontology. You can use the [metadata searching tool in the REST API](http://77.83.99.74:5000/swagger#/metadata) of the respository.
 
-On the other hand, the column names (metadata) are:
+The column names (metadata) are:
 
 - assay
 - specie
@@ -63,6 +63,6 @@ On the other hand, the column names (metadata) are:
 - strain
 - experimental_factor
 
-If you do not want to use some of these fields just leave it blank.
+If you do not want to use some of these fields just leave it blank or remove the column.
 
-If one of these fields or values is not present in the file or some one is misspelled, the code will throw an error and the project won't be created.
+If one of these fields is misspelled or does not exists, the code will throw an error and the project won't be created.
