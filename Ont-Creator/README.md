@@ -8,7 +8,7 @@ As we said, we need two documents for the metadata. The first one has the data o
 
 ### Project information
 
-This file is a csv (with comma separator) with key - value pairs with no header. A [template](project_info_template.csv) is given in this GitHub. If a field does not have a value, you can remove the row or leave the key with a blank value.
+This file is a csv (with comma separator) with key - value pairs with no header. A [template](project_info_template.csv) is given in this GitHub. If a field does not have a value leave the key with a blank value.
 
 The fields of the document are:
 
@@ -55,6 +55,6 @@ The column names (metadata) are:
 - **_nucleic_acid_source_**: Type of sequencing used (SingleCell or SingleNucleus)
 - **_sample_type_**: CellLines, Organoids or Specimen.
 
-If you do not want to use some of these fields just leave it blank or remove the column.
+If you do not want to use some of these fields just leave it blank.
 
 If one of these fields is misspelled or does not exists, the code will throw an error and the project won't be created.
