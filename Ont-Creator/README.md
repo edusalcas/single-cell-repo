@@ -18,7 +18,7 @@ The fields of the document are:
 - **_description_**: A description of the project.
 - **_update_date_**: The current date.
 - **_load_date_**: The date when the project was uploaded.
-- **_array_express_id_**: The id of the project in [_Array Express_](https://www.ebi.ac.uk/arrayexpress/).
+- **_array_express_id_**: The id of the project in [Array Express](https://www.ebi.ac.uk/arrayexpress/).
 - **_ENA_id_**: The id of the project in [ENA](https://www.ebi.ac.uk/ena/browser/home).
 - **_GEO_id_**: The id of the project in [GEO](https://www.ncbi.nlm.nih.gov/geo/).
 - **_INSD_project_id_**: The id of the project in the INSD. 
@@ -38,30 +38,22 @@ Once again, this file is a csv with header. This table has a number of rows equa
 The column names (metadata) are:
 
 - **_assay_**: Name of the cell.
-- **_specie_**: Specie of the sample.
-- **_cell_type_**: Type of the cell of the sample.
-- **_disease_**: Disease of the sample, or control.
-- **_organism_part_**: Part of the organism of the sample.
-- **_biopsy_site_**:
-- **_metastatic_site_**:
-- **_model_**:
-- **_instrument_**:
-- **_library_**:
-- **_preservation_**_
-- **__sex__**_
-- **_min_age_**_
-- **_max_age_**:
-- **_age_unit_**:
-- **_cell_line_**:
-- **_genotype_**:
-- **_growth_condition_**:
-- **_nucleic_acid_source_**:
-- **_organism_status_**:
-- **_phenotype_**:
-- **_sample_type_**:
-- **_stimulus_**:
-- **_strain_**:
-- **_experimental_factor_**:
+- **_specie_**: Specie of the sample (HomoSapiens).
+- **_cell_type_**: Type of the cell of the sample (DopaminergicNeuron).
+- **_disease_**: Disease of the sample, or control (ParkinsonsDisease).
+- **_organism_part_**: Part of the organism of the sample (Brain).
+- **_biopsy_site_**: Concrete site in the organism part where the sample has been taken (Cortex).
+- **_metastatic_site_**: Part of the tumor where the sample has been taken (Core).
+- **_instrument_**: Instrument used for sequencing the cell (IllumiaHiSeq2000).
+- **_library_**: Library used fir equencing the cell (Smart-seq).
+- **_preservation_**: Preservation method used in the cell sample (Fresh).
+- **_sex_**: Biological sex of the specimen (female).
+- **_min_age_**: The minimun age of the group of the donors of the specimen.
+- **_max_age_**: The maximun age of the group of the donors of the specimen.
+- **_age_unit_**: Unit in which the age is expressed.
+- **_cell_line_**: Name of the used cell line.
+- **_nucleic_acid_source_**: Type of sequencing used (SingleCell or SingleNucleus)
+- **_sample_type_**: CellLines, Organoids or Specimen.
 
 If you do not want to use some of these fields just leave it blank or remove the column.
 
