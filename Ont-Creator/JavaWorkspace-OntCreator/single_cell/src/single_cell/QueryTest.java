@@ -8,11 +8,13 @@ public class QueryTest {
 		Query query = QueryFactory.create(queryStringTest7);
 		try (QueryExecution qexec = QueryExecutionFactory.create(query, model.getModel())) {
 			ResultSet results = qexec.execSelect();
-			for (; results.hasNext();) {
+			int i = 0;
+			for (; results.hasNext();i++) {
 				QuerySolution soln = results.nextSolution();
 				
 				System.out.println(soln.toString().replaceAll(NS, ""));
 			}
+			// System.out.println(i + " results.");
 		}
 	}
 	
@@ -21,6 +23,7 @@ public class QueryTest {
 
 		String NS = "http://www.semanticweb.org/alicia/ontologies/2020/8/singleCellRepositories#";
 		String rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+		String xsd = "http://www.w3.org/2001/XMLSchema#";
 		
 		MyModel model = new MyModel(NS, inputFileName);
 
@@ -52,6 +55,7 @@ public class QueryTest {
 		Query query = QueryFactory.create(queryString);
 		try (QueryExecution qexec = QueryExecutionFactory.create(query, model.getModel())) {
 			ResultSet results = qexec.execSelect();
+			int i = 0;
 			
 			QuerySolution soln = results.nextSolution();	
 			

@@ -13,7 +13,8 @@ public class QueryAlicia {
 		Query query = QueryFactory.create(queryStringTest7);
 		try (QueryExecution qexec = QueryExecutionFactory.create(query, model.getModel())) {
 			ResultSet results = qexec.execSelect();
-			for (; results.hasNext();) {
+			int i = 0;
+			for (; results.hasNext();i++) {
 				QuerySolution soln = results.nextSolution();
 				
 				System.out.println(soln.toString().replaceAll(NS, ""));

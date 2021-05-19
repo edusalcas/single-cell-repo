@@ -20,11 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="56c6580c-2ee0-422e-9515-65946ca6d81f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/csv2GOREP.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/From_raw_to_processed.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/From_raw_to_processed.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OntologyConversorGOREP.py" beforeDir="false" afterPath="$PROJECT_DIR$/OntologyConversorGOREP.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OntologyCreator.py" beforeDir="false" afterPath="$PROJECT_DIR$/OntologyCreator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWorkspace-OntCreator/.metadata/.plugins/org.eclipse.m2e.core/nexus/830bc118332e77292949ed1e6d2fabe0/segments_5t" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWorkspace-OntCreator/single_cell/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/../JavaWorkspace-OntCreator/single_cell/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JavaWorkspace-OntCreator/single_cell/target/classes/single_cell/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/../JavaWorkspace-OntCreator/single_cell/target/classes/single_cell/Main.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -7,7 +7,7 @@ import org.json.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class Main {
+public class Test {
 
 	private static String readJSON2String(String fileName) {
 		Path fileNamePath = Path.of(fileName);
@@ -28,10 +28,11 @@ public class Main {
 		
 		// Declare variables and input/output streams
 		String inputFileName = "../../../SingleCell-Files/singleCellRepositoriesv6_withURIs.owl";
-		String outputFileName = "../../../SingleCell-Files/out_repositoriev6.owl";
+		String outputFileName = "../../../SingleCell-Files/out_repositoriev6_sample.owl";
 		String[] hitsFileNames = new String[]{
-				"../../../SingleCell-Files/processed_data/HCA_processed.json",
-				"../../../SingleCell-Files/processed_data/SCAE_processed.json"
+				// "../../../SingleCell-Files/processed_data/HCA_processed.json",
+				// "../../../SingleCell-Files/processed_data/SCAE_processed.json"
+				"../../../SingleCell-Files/processed_data/PROJECT_ID_0010_processed.json"
 				};
 		
 		String NS = "http://www.semanticweb.org/alicia/ontologies/2020/8/singleCellRepositories#";
