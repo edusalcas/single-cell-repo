@@ -208,6 +208,8 @@ def get_project_info(project_ID):
           ?specie
           ?disease
           ?cellType
+          ?library
+          ?instrument
           ?organismPart
           ?projectLink
           ?publicationLink
@@ -222,6 +224,8 @@ def get_project_info(project_ID):
           OPTIONAL { ?project a:SPR.hasOrganismPart ?organismPart . }
           OPTIONAL { ?project a:SPR.hasDisease ?disease . }
           OPTIONAL { ?project a:SPR.hasCellType ?cellType . }
+          OPTIONAL { ?project a:SPR.hasLibrary ?library . }
+          OPTIONAL { ?project a:SPR.hasInstrument ?instrument . }
           OPTIONAL { ?project a:PR.hasPublicationLink ?publicationLink . }
           OPTIONAL { ?project a:PR.hasPublicationTitle ?publicationTitle . }
         }

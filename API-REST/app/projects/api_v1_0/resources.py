@@ -171,6 +171,11 @@ def get_percentile():
                         items:
                             type:string
                         collectionFormat: csv
+                    specie:
+                        type: array
+                        items:
+                            type:string
+                        collectionFormat: csv
                     project_IDs:
                         type: array
                         items:
@@ -181,8 +186,10 @@ def get_percentile():
                         - ENSG00000287846
                         - ENSDARG00000034326
                     cell_types:
-                        - memory B cell
-                        - blood cell
+                        - MemoryBcell
+                        - BloodCell
+                    specie:
+                        - HomoSapiens
 
         responses:
           200:
@@ -195,6 +202,7 @@ def get_percentile():
     gen_names = []
     cell_types = []
     project_IDs = []
+    species = []
 
     print(filters)
 
@@ -205,7 +213,9 @@ def get_percentile():
             cell_types = value
         elif key == 'project_IDs':
             project_IDs = value
+        elif key == 'specie':
+            species = value
 
-    percentiles = conn.get_percentile(gen_names, cell_types, project_IDs)
+    percentiles = conn.get_percentile(gen_names, cell_types, project_IDs, species)
 
     return jsonify(percentiles)

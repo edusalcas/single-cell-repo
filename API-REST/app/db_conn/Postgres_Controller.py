@@ -65,10 +65,13 @@ class PostgresController(object):
         if percentile_group_id is not None:
             return percentile_group_id[0]
 
-    def get_percentile(self, gene_names, cell_types, project_IDs):
+    def get_percentile(self, gene_names, cell_types, project_IDs, species):
         gene_names = tuple(gene_names)
         cell_types = tuple(cell_types)
         project_IDs = tuple(project_IDs)
+        species = tuple(species)
+
+        print(species)
 
         query = f"""
             SELECT 
@@ -87,21 +90,39 @@ class PostgresController(object):
             add_and = False
 
             if gene_names:
-                where += f" gene_name IN {gene_names}"
+                if len(gene_names) == 1:
+                    where += f" gene_name = '{gene_names[0]}'"
+                else:
+                    where += f" gene_name IN {gene_names}"
                 add_and = True
             if project_IDs:
                 if add_and:
                     where += " AND"
-                where += f" project_id IN {project_IDs}"
+                if len(project_IDs) == 1:
+                    where += f" project_id = '{project_IDs[0]}'"
+                else:
+                    where += f" project_id IN {project_IDs}"
                 add_and = True
             if cell_types:
                 if add_and:
                     where += " AND"
-                where += f" metadata->>'cell type' IN {cell_types}"
+                if len(cell_types) == 1:
+                    where += f" metadata->>'cell type' = '{cell_types[0]}'"
+                else:
+                    where += f" metadata->>'cell type' IN {cell_types}"
                 add_and = True
-            # TODO add more filter characteristics
+            if species:
+                if add_and:
+                    where += " AND"
+                if len(species) == 1:
+                    where += f" metadata->>'organism' = '{species[0]}'"
+                else:
+                    where += f" metadata->>'organism' IN {species}"
+                add_and = True
 
             query += where
+
+        print(query)
 
         with PostgresConnection() as conn:
             percentiles = pd.read_sql_query(query, conn)
