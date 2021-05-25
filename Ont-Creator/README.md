@@ -38,6 +38,7 @@ Once again, this file is a csv with header. This table has a number of rows equa
 The column names (metadata) are:
 
 - **_assay_**: Name of the cell.
+- **_individual_**: Id of the individual of the sample.
 - **_specie_**: Specie of the sample (HomoSapiens).
 - **_cell_type_**: Type of the cell of the sample (DopaminergicNeuron).
 - **_disease_**: Disease of the sample, or control (ParkinsonsDisease).
@@ -58,3 +59,14 @@ The column names (metadata) are:
 If you do not want to use some of these fields just leave it blank.
 
 If one of these fields is misspelled or does not exists, the code will throw an error and the project won't be created.
+
+## Matrix file
+
+On the other hand, each project needs a matrix with the expression information (normalized and filtered) of each gene for each cell of the project. Such matrix is going to be of size NxM, where we have N genes in the rows and M cells in the columns of the matrix. To keep the file size as small as possible, the .mtx format should be used to represent the matrix. In addition, two files should also be created to indicate the name of the genes and cells (in both files the delimiter will be a line break). The gene names should be in ensembl format. The files will be compressed in zip format to try to keep the file size as small as possible. The files should be named as follows:
+
+- **Zip file**: _project_id_-normalised-files.zip
+- **Matrix**: _project_id_.aggregated_filtered_normalised_counts.mtx
+- **Cell names**: _project_id_.aggregated_filtered_normalised_counts.mtx_cols
+- **Gene names**: _project_id_.aggregated_filtered_normalised_counts.mtx_rows
+
+Where _project_id_ is the ID of the projects indicated in the _project_info_ file.
