@@ -3,17 +3,41 @@ from Postgres_connection import PostgresConnection
 
 #region Create table commands
 
-percentiles_table = '''
-    DROP TABLE IF EXISTS percentiles;
-
-    CREATE TABLE percentiles (
+percentile_groups_table = '''
+    DROP TABLE IF EXISTS percentil_groups CASCADE;
+    
+    CREATE TABLE percentil_groups (
         id SERIAL PRIMARY KEY,
         project_id VARCHAR(255) NOT NULL,
         metadata JSON,
-        gene_name VARCHAR(255) NOT NULL,
-        percentile float NOT NULL,
         number_genes INTEGER NOT NULL,
         number_cells INTEGER NOT NULL
+    );
+'''
+
+percentiles_table = '''
+    DROP TABLE IF EXISTS percentiles CASCADE;
+    
+    CREATE TABLE percentiles (
+        id SERIAL PRIMARY KEY,
+        gene_name VARCHAR(255) NOT NULL,
+        percentile float NOT NULL,
+        percentil_group INTEGER NOT NULL,
+        FOREIGN KEY (percentil_group) 
+            REFERENCES percentil_groups (id) 
+            ON UPDATE CASCADE ON DELETE CASCADE
+    );
+'''
+
+gcn_table = '''
+    DROP TABLE IF EXISTS gcn CASCADE;
+
+    CREATE TABLE gcn (
+        id SERIAL PRIMARY KEY,
+        project_id VARCHAR(255) NOT NULL,
+        correction VARCHAR(255) NOT NULL,
+        iter_pseudocells INTEGER NOT NULL,
+        metadata JSON
     );
 '''
 
@@ -22,7 +46,11 @@ modules_table = '''
 
     CREATE TABLE modules (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(255) NOT NULL
+        name VARCHAR(255) NOT NULL,
+        gcn INTEGER NOT NULL,
+        FOREIGN KEY (gcn) 
+            REFERENCES gcn (id) 
+            ON UPDATE CASCADE ON DELETE CASCADE
     );
 '''
 
@@ -31,10 +59,6 @@ module_membership_table = '''
 
     CREATE TABLE module_membership (
         id SERIAL PRIMARY KEY,
-        project_id VARCHAR(255) NOT NULL,
-        correction VARCHAR(255) NOT NULL,
-        iter_pseudocells INTEGER NOT NULL,
-        metadata JSON,
         module INTEGER NOT NULL,
         gene_name VARCHAR(255) NOT NULL,
         MM float NOT NULL,
@@ -44,70 +68,46 @@ module_membership_table = '''
     );
 '''
 
-notation_table = '''
-    DROP TABLE IF EXISTS notation CASCADE;
+term_table = '''
+    DROP TABLE IF EXISTS term CASCADE;
 
-    CREATE TABLE notation (
+    CREATE TABLE term (
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
-        notation_id VARCHAR(255) NOT NULL,
+        term_id VARCHAR(255) NOT NULL,
         source VARCHAR(255) NOT NULL,
         IC float NULL
     );
 '''
 
-phenotype_notation_table = '''
-    DROP TABLE IF EXISTS phenotype_notation CASCADE;
+annotation_table = '''
+    DROP TABLE IF EXISTS annotation CASCADE;
 
-    CREATE TABLE phenotype_notation (
+    CREATE TABLE annotation (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        notation_id VARCHAR(255) NOT NULL,
-        source VARCHAR(255) NOT NULL
-    );
-'''
-
-notation_bridge_table = '''
-    DROP TABLE IF EXISTS notation_bridge CASCADE;
-
-    CREATE TABLE notation_bridge (
-        module_id INTEGER,
-        notation_id INTEGER,
-        PRIMARY KEY (module_id, notation_id),
-        FOREIGN KEY (module_id) 
+        module INTEGER NOT nULL,
+        term INTEGER NOT NULL,
+        p_value float NOT NULL,
+        FOREIGN KEY (module) 
             REFERENCES modules (id) 
             ON UPDATE CASCADE ON DELETE CASCADE,
-        FOREIGN KEY (notation_id) 
-            REFERENCES notation (id) 
+        FOREIGN KEY (term) 
+            REFERENCES term (id) 
             ON UPDATE CASCADE ON DELETE CASCADE
     );
 '''
 
-phenotype_notation_bridge_table = '''
-    DROP TABLE IF EXISTS phenotype_notation_bridge CASCADE;
 
-    CREATE TABLE phenotype_notation_bridge (
-        module_id INTEGER,
-        phenotype_notation_id INTEGER,
-        PRIMARY KEY (module_id, phenotype_notation_id),
-        FOREIGN KEY (module_id) 
-            REFERENCES modules (id) 
-            ON UPDATE CASCADE ON DELETE CASCADE,
-        FOREIGN KEY (phenotype_notation_id) 
-            REFERENCES phenotype_notation (id) 
-            ON UPDATE CASCADE ON DELETE CASCADE
-    );
-'''
 #endregion
 
 commands = [
+    percentile_groups_table,
     percentiles_table,
+    gcn_table,
     modules_table,
     module_membership_table,
-    notation_table,
-    phenotype_notation_table,
-    notation_bridge_table,
-    phenotype_notation_bridge_table
+    term_table,
+    annotation_table
 ]
 
 # Running all commands in postgres
