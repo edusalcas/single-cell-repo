@@ -176,6 +176,11 @@ def get_percentile():
                         items:
                             type:string
                         collectionFormat: csv
+                    disease:
+                        type: array
+                        items:
+                            type:string
+                        collectionFormat: csv
                     project_IDs:
                         type: array
                         items:
@@ -203,6 +208,7 @@ def get_percentile():
     cell_types = []
     project_IDs = []
     species = []
+    disease = []
 
     print(filters)
 
@@ -215,7 +221,9 @@ def get_percentile():
             project_IDs = value
         elif key == 'specie':
             species = value
+        elif key == 'disease':
+            disease = value
 
-    percentiles = conn.get_percentile(gen_names, cell_types, project_IDs, species)
+    percentiles = conn.get_percentile(gen_names, cell_types, project_IDs, species, disease)
 
     return jsonify(percentiles)

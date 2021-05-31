@@ -31,5 +31,5 @@ def get_project_downloads(project_ID):
 # endregion
 
 
-def get_percentile(gen_names=[], cell_types=[], project_IDs=[], species=[]):
-    return psql.get_percentile(gen_names, cell_types, project_IDs, species)
+def get_percentile(gen_names=[], cell_types=[], project_IDs=[], species=[], disease=[]):
+    return psql.get_percentile(gen_names, cell_types, project_IDs, species, disease)

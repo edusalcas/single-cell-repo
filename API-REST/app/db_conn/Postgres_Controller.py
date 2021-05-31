@@ -65,13 +65,12 @@ class PostgresController(object):
         if percentile_group_id is not None:
             return percentile_group_id[0]
 
-    def get_percentile(self, gene_names, cell_types, project_IDs, species):
+    def get_percentile(self, gene_names, cell_types, project_IDs, species, disease):
         gene_names = tuple(gene_names)
         cell_types = tuple(cell_types)
         project_IDs = tuple(project_IDs)
         species = tuple(species)
-
-        print(species)
+        disease = tuple(disease)
 
         query = f"""
             SELECT 
@@ -118,6 +117,14 @@ class PostgresController(object):
                     where += f" metadata->>'organism' = '{species[0]}'"
                 else:
                     where += f" metadata->>'organism' IN {species}"
+                add_and = True
+            if disease:
+                if add_and:
+                    where += " AND"
+                if len(disease) == 1:
+                    where += f" metadata->>'disease' = '{disease[0]}'"
+                else:
+                    where += f" metadata->>'disease' IN {disease}"
                 add_and = True
 
             query += where
