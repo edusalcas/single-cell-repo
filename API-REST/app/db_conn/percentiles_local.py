@@ -7,7 +7,7 @@ import requests
 from whoosh.qparser import QueryParser
 from ..common import utils
 
-from . import fuseki_con as fuseki
+from . import conn_controller as conn
 
 
 def get_percentile(gen_names=[], cell_types=[], project_IDs=[]):
@@ -64,7 +64,7 @@ def get_percentile(gen_names=[], cell_types=[], project_IDs=[]):
             df = df[df['gen_name'].isin(gen_names)]
         print("project_info")
 
-        project_info = fuseki.get_project_info(percentile_project_ID)
+        project_info = conn.get_project_info(percentile_project_ID)
         print(project_info)
 
         # Loop over gen-project

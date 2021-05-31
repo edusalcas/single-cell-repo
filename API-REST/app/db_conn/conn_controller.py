@@ -1,6 +1,8 @@
 from . import fuseki_con as fuseki
 from . import percentiles_local as percentiles
+from . import Postgres_Controller
 
+psql = Postgres_Controller.PostgresController()
 
 # region Fuseki functions
 def get_projects(params={}):
@@ -29,5 +31,5 @@ def get_project_downloads(project_ID):
 # endregion
 
 
-def get_percentile(gen_names=[], cell_types=[], project_IDs=[]):
-    return percentiles.get_percentile(gen_names, cell_types, project_IDs)
+def get_percentile(gen_names=[], cell_types=[], project_IDs=[], species=[]):
+    return psql.get_percentile(gen_names, cell_types, project_IDs, species)
