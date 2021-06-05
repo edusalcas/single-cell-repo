@@ -10,7 +10,7 @@ As we said, in the GetAndProcessData folder we have all the functionality with w
 
 ## Adding instances to ontology
 
-In the other folder, JavaWorkspace-OntCreator, we have a Java project to add the instances to the ontology. We can open the project with any IDE and run the [Test](https://github.com/edusalcas/single-cell-repo/blob/Ont-Creator/Ont-Creator/JavaWorkspace-OntCreator/single_cell/src/single_cell/Test.java) class indicating the paths of the processed files in JSON, the path to the input ontology and to the output ontology.
+In the other folder, JavaWorkspace-OntCreator, we have a Java project to add the instances to the ontology. We can open the project with any IDE and run the [Test](https://github.com/edusalcas/single-cell-repo/blob/Ont-Creator/Ont-Creator/JavaWorkspace-OntCreator/single_cell/src/single_cell/Test.java) class indicating the paths of the processed files in JSON, the path to the input ontology and to the output ontology. The empty ontology is [here](https://github.com/edusalcas/single-cell-repo/blob/Ont-Creator/Ont-Creator/JavaWorkspace-OntCreator/single_cell/files/singleCellRepositoriesv6_withURIs.owl).
 
 # Adding a new project to GOREP
 
