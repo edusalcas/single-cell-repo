@@ -12,4 +12,4 @@ Lastly, we can see in the notebook [Percentile_queries](Database/Percentile_quer
 
 # Percentiles
 
-The creation of the percentiles requeries splitting the projects in samplings, in the notebook [Percentile_groups](Percentiles/Percentile_groups.ipynb) is explained all the process of generating the samplings. In the notebook [Percentile_generation_algorithm](Percentiles/Percentile_generation_algorithm.ipynb) is explained the algorithm to generate the percentiles of a project. **If you want to create the percentiles of a project**, use the [PercentileCreation](Percentiles/PercentileCreation.py) file.
+The creation of the percentiles requeries splitting the projects in samplings, in the notebook [Percentile_groups](Percentiles/Percentile_groups.ipynb) is explained all the process of generating the samplings. In the notebook [Percentile_generation_algorithm](Percentiles/Percentile_generation_algorithm.v1.ipynb) is explained the algorithm to generate the percentiles of a project. **If you want to create the percentiles of a project**, use the [PercentileCreation](Percentiles/PercentileCreation.py) file.
