@@ -25,3 +25,12 @@ TODO
 ## Initialize Postgres database
 
 First, you will have to configure [Postgres Controller](https://github.com/edusalcas/single-cell-repo/blob/Experiments/Experiments/Database/Postgres_Controller.py) file with the user, password and database name. Then, run the [database initialization](https://github.com/edusalcas/single-cell-repo/blob/Experiments/Experiments/Database/Create_tables.py) script. Finally, you can populate the database with the percentiles with this [notebook](https://github.com/edusalcas/single-cell-repo/blob/Experiments/Experiments/Percentiles/Percentile_generation.ipynb).
+
+# GOREP usage
+
+This is an index of the content of the repository:
+
+- [Data acquisition](https://github.com/edusalcas/single-cell-repo/tree/Ont-Creator/Ont-Creator): Explain the way to download the data from the repositories, process it and add all the information to the ontology.
+- [GOREP content](https://github.com/edusalcas/single-cell-repo/tree/Experiments/Experiments): Explain percentile creation, database schema creation and insert instances to the database.
+- [API-REST](https://github.com/edusalcas/single-cell-repo/tree/API-REST/API-REST): Explain the API, buildt in Python with Flask.
+
