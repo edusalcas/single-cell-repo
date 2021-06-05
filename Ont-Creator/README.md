@@ -1,6 +1,22 @@
+# Ontology creation
+
+In this part of the repository we can find the functionality to create the ontology: from downloading the files in the different repositories, to adding the data to the ontology.
+
+In first place, we have the [GetAndProcessData](https://github.com/edusalcas/single-cell-repo/tree/Ont-Creator/Ont-Creator/GetAndProccessData) folder where we find the notebooks and the scripts needed to download and process all the data from the repositories. In the other hand, we have the folder [JavaWorkspace-OntCreator](https://github.com/edusalcas/single-cell-repo/tree/Ont-Creator/Ont-Creator/JavaWorkspace-OntCreator) in which there is a java project ready to add all the instances to the ontology.
+
+## Download and proccess data
+
+As we said, in the GetAndProcessData folder we have all the functionality with which we can download and process all the data. With the notebooks [Get_HCA_data](https://github.com/edusalcas/single-cell-repo/blob/Ont-Creator/Ont-Creator/GetAndProccessData/Get_HCA_data.ipynb) and [Get_SCEA_data](https://github.com/edusalcas/single-cell-repo/blob/Ont-Creator/Ont-Creator/GetAndProccessData/Get_SCEA_data.ipynb) we can download all the data from HCA and SCEA, and with the notebook [From_raw_to_processed](https://github.com/edusalcas/single-cell-repo/blob/Ont-Creator/Ont-Creator/GetAndProccessData/From_raw_to_processed.ipynb) we process all the data downloaded from each repository. This last notebook use the functions from the classes that implement the functionality of processing the data to the ontology format. These files are [OntologyConversorHCA](OntologyConversorHCA.py) and [OntologyConversorSCEA](https://github.com/edusalcas/single-cell-repo/blob/Ont-Creator/Ont-Creator/GetAndProccessData/OntologyConversorSCAE.py), and with the class [OntologyCreator](https://github.com/edusalcas/single-cell-repo/blob/Ont-Creator/Ont-Creator/GetAndProccessData/OntologyCreator.py) we use these classes in a simple way.
+
+## Adding instances to ontology
+
+In the other folder, JavaWorkspace-OntCreator, we have a Java project to add the instances to the ontology. We can open the project with any IDE and run the [Test](https://github.com/edusalcas/single-cell-repo/blob/Ont-Creator/Ont-Creator/JavaWorkspace-OntCreator/single_cell/src/single_cell/Test.java) class indicating the paths of the processed files in JSON, the path to the input ontology and to the output ontology.
+
 # Adding a new project to GOREP
 
-This README documents is a guide to introduce new projects in GOREP. In first place, the data have to be introduced in a concrete format we are describing just now. We need three files, two of them with metadata and other with the expression matrix. We are describing the format of these files:
+This final part is a guide to introduce new projects in GOREP. In first place, the data have to be introduced in a concrete format we are describing just now. We need three files, two of them with metadata and other with the expression matrix. Once the files are created, you can can use the notebook [Get_GOREP_data](https://github.com/edusalcas/single-cell-repo/blob/Ont-Creator/Ont-Creator/GetAndProccessData/Get_GOREP_data.ipynb) to get the processed JSON and then the java project to create the ontology.
+
+We are describing the format of these files:
 
 ## Metadata files
 
