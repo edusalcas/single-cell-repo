@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9bf62a33-f7b0-4523-b5f7-4b134246b07c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Experiments/Percentile_groups.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Experiments/Percentile_groups.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Experiments/Percentiles/Generate_quantiles.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Experiments/Percentiles/Generate_quantiles.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/db_conn/conn_controller.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/db_conn/fuseki_con.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/db_conn/percentiles_local.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/projects/api_v1_0/resources.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Ont-Creator/GetAndProccessData/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Experiments/Database/Percentile_queries.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Experiments/Database/Percentile_queries.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Experiments/Percentiles/Percentile_generation.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Experiments/Percentiles/Percentile_generation.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Experiments/Percentiles/Percentile_generation_algorithm.v1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Experiments/Percentiles/Percentile_generation_algorithm.v1.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Experiments/Percentiles/Percentile_groups.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Experiments/Percentiles/Percentile_groups.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +44,7 @@
       <updated>1616760029719</updated>
       <workItem from="1616760035356" duration="633000" />
       <workItem from="1617011629518" duration="981000" />
+      <workItem from="1622494190291" duration="118000" />
     </task>
     <servers />
   </component>
