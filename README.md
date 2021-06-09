@@ -1,4 +1,4 @@
-# ¿What is GOREP?
+# What is GOREP?
 
 GOREP (Global Omics REPository) aims to be a single-entry point for computational biologists, data analysts and clinicians working with single-cell data as a source of evidence for their investigations. GOREP is a set of meta-databases on single-cell that, currently, can be accessed through Web interfaces. GOREP integrate the Human Cell Atlas (HCA) https://www.humancellatlas.org/ databases of single cell repositories and the Single Cell Expression Atlas (SCEA), https://www.ebi.ac.uk/gxa/sc/home all in one.
 
