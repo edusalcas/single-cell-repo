@@ -53,7 +53,7 @@ This is an index of the content of the repository:
 
 - [Data acquisition](https://github.com/edusalcas/single-cell-repo/tree/Ont-Creator/Ont-Creator): Explain the way to download the data from the repositories, process it and add all the information to the ontology.
 - [GOREP content](https://github.com/edusalcas/single-cell-repo/tree/Experiments/Experiments): Explain percentile creation, database schema creation and insert instances to the database.
-- [API-REST](https://github.com/edusahttps://github.com/edusalcas/single-cell-repo/blob/Ont-Creator/Ont-Creator/JavaWorkspace-OntCreator/single_cell/files/singleCellRepositoriesv6_withURIs.owllcas/single-cell-repo/tree/API-REST/API-REST): Explain the API, buildt in Python with Flask, and how to use it.
+- [API-REST](https://github.com/edusalcas/single-cell-repo/tree/API-REST/API-REST): Explain the API, buildt in Python with Flask, and how to use it.
 
 # Credits
 
