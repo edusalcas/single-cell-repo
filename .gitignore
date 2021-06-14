@@ -8,9 +8,15 @@ SingleCell-Files/
 .DS_Store
 */.DS_Store
 
+Experiments/.ipynb_checkpoints/
+Experiments/Database/.ipynb_checkpoints/
+Experiments/Percentiles/.ipynb_checkpoints/
+Experiments/Percentiles_Experiments/.ipynb_checkpoints/
+
 Ont-Creator/GetAndProccessData/.ipynb_checkpoints/
 <<<<<<< Updated upstream
 =======
 
 Ont-Creator/JavaWorkspace-OntCreator/.metadata/
 >>>>>>> Stashed changes
+
