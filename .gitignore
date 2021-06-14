@@ -1,4 +1,6 @@
 
-SingleCell-Files/
+*.pyc
 
-.DS_Store
+**.DS_Store
+
+SingleCell-Files/

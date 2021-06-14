@@ -1,9 +1,9 @@
 import ast
 
 from flask import request, Blueprint, jsonify
-from flask_restful import Api, Resource
+from flask_restful import Api
 
-from ...db_conn import fuseki_con
+from ...db_conn import conn_controller as conn
 
 projects_v1_0_bp = Blueprint('projects_v1_0_bp', __name__)
 
@@ -30,13 +30,19 @@ def get_projects():
         name: sex
         description: Sex of the specimen studied on a project
         type: string
+      - in: query
+        name: specie
+        description: Specie of the specimen studied on a project
+        type: string
+      - in: query
+        name: repository
+        description: Repository of the project
+        type: string
 
     responses:
       200:
         description: List of projects that meet selected parameters
     """
-    if not fuseki_con.conn_alive():
-        return jsonify({'Internal error': 'Internal server is dead'})
 
     params = {}
 
@@ -52,7 +58,15 @@ def get_projects():
     if sex is not None:
         params['sex'] = sex
 
-    projects = fuseki_con.get_projects(params)
+    specie = request.values.get('specie')
+    if specie is not None:
+        params['specie'] = specie
+
+    repository = request.values.get('repository')
+    if repository is not None:
+        params['repository'] = repository
+
+    projects = conn.get_projects(params)
 
     return jsonify(projects)
 
@@ -75,9 +89,10 @@ def get_project_info(project_ID):
         description: Information of the project associated with the project_ID
     """
 
-    project_info = fuseki_con.get_project_info(project_ID)
+    project_info = conn.get_project_info(project_ID)
 
     return jsonify(project_info)
+
 
 @projects_v1_0_bp.route("/project/metadata/<param>", methods=['GET'])
 def get_project_metadata(param):
@@ -103,19 +118,18 @@ def get_project_metadata(param):
                     - specie
                     - library
                     - biopsy_site
+                    - project_ID
                 default: disease
             collectionFormat: multi
         responses:
           200:
             description: List of values for metadata parameter
     """
-    if not fuseki_con.conn_alive():
-        return jsonify({'Internal error': 'Internal server is dead'})
 
     if param is None:
         return jsonify({'msg': 'param needed'})
 
-    metadata_list = fuseki_con.get_project_metadata(param)
+    metadata_list = conn.get_project_metadata(param)
 
     return jsonify(metadata_list)
 
@@ -142,7 +156,7 @@ def get_project_downloads(project_ID):
     if project_ID is None:
         return jsonify({'msg': 'project_ID needed'})
 
-    downloads = fuseki_con.get_project_downloads(project_ID)
+    downloads = conn.get_project_downloads(project_ID)
 
     return jsonify(downloads)
 
@@ -173,6 +187,16 @@ def get_percentile():
                         items:
                             type:string
                         collectionFormat: csv
+                    specie:
+                        type: array
+                        items:
+                            type:string
+                        collectionFormat: csv
+                    disease:
+                        type: array
+                        items:
+                            type:string
+                        collectionFormat: csv
                     project_IDs:
                         type: array
                         items:
@@ -183,8 +207,10 @@ def get_percentile():
                         - ENSG00000287846
                         - ENSDARG00000034326
                     cell_types:
-                        - memory B cell
-                        - blood cell
+                        - MemoryBcell
+                        - BloodCell
+                    specie:
+                        - HomoSapiens
 
         responses:
           200:
@@ -197,6 +223,8 @@ def get_percentile():
     gen_names = []
     cell_types = []
     project_IDs = []
+    species = []
+    disease = []
 
     print(filters)
 
@@ -207,7 +235,11 @@ def get_percentile():
             cell_types = value
         elif key == 'project_IDs':
             project_IDs = value
+        elif key == 'specie':
+            species = value
+        elif key == 'disease':
+            disease = value
 
-    percentiles = fuseki_con.get_percentile(gen_names, cell_types, project_IDs)
+    percentiles = conn.get_percentile(gen_names, cell_types, project_IDs, species, disease)
 
     return jsonify(percentiles)
