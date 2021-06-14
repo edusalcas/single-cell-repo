@@ -4,3 +4,13 @@
 **.DS_Store
 
 SingleCell-Files/
+
+.DS_Store
+*/.DS_Store
+
+Ont-Creator/GetAndProccessData/.ipynb_checkpoints/
+<<<<<<< Updated upstream
+=======
+
+Ont-Creator/JavaWorkspace-OntCreator/.metadata/
+>>>>>>> Stashed changes
