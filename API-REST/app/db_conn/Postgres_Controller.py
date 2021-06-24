@@ -1,5 +1,6 @@
 import psycopg2
 import pandas as pd
+import os
 
 from io import StringIO
 
@@ -8,11 +9,16 @@ class PostgresConnection(object):
 
     def __enter__(self):
         # connect to the PostgreSQL server
+        database = os.getenv("POSTGRES-DB", default="sc-db")
+        user = os.getenv("POSTGRES-USER", default="sc-user")
+        password = os.getenv("POSTGRES-PASSWORD", default="sc-password")
+
         self.conn = psycopg2.connect(
-            host="localhost",
-            database="sc-db",
-            user="sc-user",
-            password="single-cell21."
+            host="db",  # In docker
+            # host="localhost", # In local
+            database=database,
+            user=user,
+            password=password
         )
 
         return self.conn

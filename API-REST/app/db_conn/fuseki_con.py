@@ -1,12 +1,10 @@
 import requests
 from . import fuseki_utils
 
-
-server_name = 'http://localhost:3030' # URL in local
-# server_name = 'http://fuseki:3030' # URL in docker
+# server_name = 'http://localhost:3030'  # URL in local
+server_name = 'http://fuseki:3030' # URL in docker
 service_name = 'ds'
 request_url = server_name + '/' + service_name
-
 
 def conn_alive():
     ans = requests.get(request_url, data={'query': '{}'})
@@ -79,7 +77,7 @@ def get_projects(params={}):
             ?specimenCount
         WHERE { ''' + where_content + '}'
 
-    # print(query)
+    #  print(query)
 
     response = requests.post(request_url, data={'query': query})
 
@@ -235,9 +233,10 @@ def get_project_info(project_ID):
         }
     '''
 
-    # print(query)
-
+    print(query)
     response = requests.post(request_url, data={'query': query})
+    print('recieved')
+
     project_info = fuseki_utils.fuseki_to_dict(response)
 
     return project_info
