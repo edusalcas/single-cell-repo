@@ -1,5 +1,5 @@
 import psycopg2 as psql
-from Postgres_connection import PostgresConnection
+from Postgres_Controller import PostgresConnection
 
 #region Create table commands
 
