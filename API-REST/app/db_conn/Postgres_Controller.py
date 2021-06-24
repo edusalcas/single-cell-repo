@@ -8,6 +8,13 @@ class PostgresConnection(object):
 
     def __enter__(self):
         # connect to the PostgreSQL server
+<<<<<<< HEAD
+=======
+        database = os.getenv("POSTGRES_DB", default="sc-db")
+        user = os.getenv("POSTGRES_USER", default="sc-user")
+        password = os.getenv("POSTGRES_PASSWORD", default="sc-password")
+
+>>>>>>> API-REST
         self.conn = psycopg2.connect(
             host="localhost",
             database="sc-db",
