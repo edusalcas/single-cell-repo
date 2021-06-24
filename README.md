@@ -19,7 +19,49 @@ Prerequisites:
 
 ## Deploy system
 
-[Here](https://github.com/edusalcas/single-cell-repo/blob/main/docker-compose.yml) we can download the docker-compose file. In this file we can modify the password of the Fuseki service, as well as the user, password and the name of the database. In addition, we can indicate the path for the local volume of Postgres service, or remove the volume in you do not want a persintent database. 
+[Here](https://github.com/edusalcas/single-cell-repo/blob/main/docker-compose.yml) we can download the docker-compose file. In this file we can modify the password of the Fuseki service (environment variable `ADMIN_PASSWORD`), as well as the user (`POSTGRES_USER`), password (`POSTGRES_PASSWORD`) and the name of the database (`POSTGRES_DB`). We have to indicate the same values for user (`POSTGRES-USER`), password (`OSTGRES-PASSWORD`) and database name (`POSTGRES-DB`) for the API. In addition, we can indicate the path for the local volume of Postgres service, or remove the volume in you do not want a persintent database. 
+
+This is an example of the docker-compose file:
+
+```yaml
+version: "3.9"
+
+services:
+
+  fuseki:
+    image: secoresearch/fuseki
+    restart: always
+    environment:
+      ADMIN_PASSWORD: fuseki-pass
+      ENABLE_DATA_WRITE: "true"
+      ENABLE_UPDATE: "true"
+      ENABLE_UPLOAD: "true"
+    ports:
+      - "3030:3030"
+
+  flask-api:
+    image: edusalcas/sc-api:v1
+    restart: always
+    environment:
+      POSTGRES-DB: database-postgres
+      POSTGRES-USER: user1
+      POSTGRES-PASSWORD: pass123
+    ports:
+      - "5000:5000"
+
+  db:
+    image: postgres:13.2
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: pass123
+      POSTGRES_USER: user1
+      POSTGRES_DB: database-postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+```
+
 
 By placing yourself in the same directory as the docker-compose file, we can execute the command `docker-compose up -d` to launch the three services. -d option runs the services in background. With the command `docker-compose down` we can remove all the containers created. In addition, you can stop all the services with the command `docker-compose stop`.
 
