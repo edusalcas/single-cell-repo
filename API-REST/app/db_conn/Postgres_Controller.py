@@ -9,9 +9,9 @@ class PostgresConnection(object):
 
     def __enter__(self):
         # connect to the PostgreSQL server
-        database = os.getenv("POSTGRES-DB", default="sc-db")
-        user = os.getenv("POSTGRES-USER", default="sc-user")
-        password = os.getenv("POSTGRES-PASSWORD", default="sc-password")
+        database = os.getenv("POSTGRES_DB", default="sc-db")
+        user = os.getenv("POSTGRES_USER", default="sc-user")
+        password = os.getenv("POSTGRES_PASSWORD", default="sc-password")
 
         self.conn = psycopg2.connect(
             host="db",  # In docker
