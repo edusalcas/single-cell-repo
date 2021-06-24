@@ -1,5 +1,6 @@
 import psycopg2
 import pandas as pd
+import os
 
 from io import StringIO
 
@@ -8,11 +9,16 @@ class PostgresConnection(object):
 
     def __enter__(self):
         # connect to the PostgreSQL server
+        database = os.getenv("POSTGRES-DB", default="sc-db")
+        user = os.getenv("POSTGRES-USER", default="sc-user")
+        password = os.getenv("POSTGRES-PASSWORD", default="sc-password")
+
         self.conn = psycopg2.connect(
-            host="localhost",
-            database="sc-db",
-            user="sc-user",
-            password="single-cell21."
+            host="db",  # In docker
+            # host="localhost", # In local
+            database=database,
+            user=user,
+            password=password
         )
 
         return self.conn
@@ -65,13 +71,12 @@ class PostgresController(object):
         if percentile_group_id is not None:
             return percentile_group_id[0]
 
-    def get_percentile(self, gene_names, cell_types, project_IDs, species):
+    def get_percentile(self, gene_names, cell_types, project_IDs, species, disease):
         gene_names = tuple(gene_names)
         cell_types = tuple(cell_types)
         project_IDs = tuple(project_IDs)
         species = tuple(species)
-
-        print(species)
+        disease = tuple(disease)
 
         query = f"""
             SELECT 
@@ -118,6 +123,14 @@ class PostgresController(object):
                     where += f" metadata->>'organism' = '{species[0]}'"
                 else:
                     where += f" metadata->>'organism' IN {species}"
+                add_and = True
+            if disease:
+                if add_and:
+                    where += " AND"
+                if len(disease) == 1:
+                    where += f" metadata->>'disease' = '{disease[0]}'"
+                else:
+                    where += f" metadata->>'disease' IN {disease}"
                 add_and = True
 
             query += where
