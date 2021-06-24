@@ -14,7 +14,7 @@ services:
       - "3030:3030"
 
   flask-api:
-    image: edusalcas/sc-api:v0
+    image: edusalcas/sc-api:v1
     restart: always
     environment:
       POSTGRES-DB: database-postgres
