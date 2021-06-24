@@ -30,14 +30,6 @@ def get_projects():
         name: sex
         description: Sex of the specimen studied on a project
         type: string
-      - in: query
-        name: specie
-        description: Specie of the specimen studied on a project
-        type: string
-      - in: query
-        name: repository
-        description: Repository of the project
-        type: string
 
     responses:
       200:
@@ -57,14 +49,6 @@ def get_projects():
     sex = request.values.get('sex')
     if sex is not None:
         params['sex'] = sex
-
-    specie = request.values.get('specie')
-    if specie is not None:
-        params['specie'] = specie
-
-    repository = request.values.get('repository')
-    if repository is not None:
-        params['repository'] = repository
 
     projects = conn.get_projects(params)
 
@@ -192,11 +176,6 @@ def get_percentile():
                         items:
                             type:string
                         collectionFormat: csv
-                    disease:
-                        type: array
-                        items:
-                            type:string
-                        collectionFormat: csv
                     project_IDs:
                         type: array
                         items:
@@ -224,7 +203,6 @@ def get_percentile():
     cell_types = []
     project_IDs = []
     species = []
-    disease = []
 
     print(filters)
 
@@ -237,9 +215,7 @@ def get_percentile():
             project_IDs = value
         elif key == 'specie':
             species = value
-        elif key == 'disease':
-            disease = value
 
-    percentiles = conn.get_percentile(gen_names, cell_types, project_IDs, species, disease)
+    percentiles = conn.get_percentile(gen_names, cell_types, project_IDs, species)
 
     return jsonify(percentiles)
