@@ -2,8 +2,8 @@ import requests
 from . import fuseki_utils
 
 
-server_name = 'http://localhost:3030' # URL in local
-# server_name = 'http://fuseki:3030' # URL in docker
+# server_name = 'http://localhost:3030' # URL in local
+server_name = 'http://fuseki:3030' # URL in docker
 service_name = 'ds'
 request_url = server_name + '/' + service_name
 
@@ -26,6 +26,10 @@ def get_projects(params={}):
             where_content += " { ?project a:SPR.hasOrganismPart ?organismPart . ?subClasses rdfs:subClassOf* a:" + value + ". ?organismPart rdf:type ?subClasses . } UNION { ?project a:SPR.hasOrganismPart a:" + value + " . }"
         elif key == 'sex':
             where_content += " ?project a:SPR.hasSex \"" + value + "\" ."
+        elif key == 'specie':
+            where_content += " ?project a:SPR.hasSpecie a:" + value + " ."
+        elif key == 'repository':
+            where_content += " ?project a:SPR.isPartOfRepository \"" + value + "\" ."
         else:
             return {'msg': 'Param key not valid'}
 

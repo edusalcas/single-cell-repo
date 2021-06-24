@@ -1,5 +1,4 @@
 from . import fuseki_con as fuseki
-from . import percentiles_local as percentiles
 from . import Postgres_Controller
 
 psql = Postgres_Controller.PostgresController()
